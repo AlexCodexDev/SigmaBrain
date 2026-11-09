@@ -1,0 +1,283 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap');
+
+body { 
+    font-family: 'Baloo 2', cursive; 
+    margin: 0;
+    overflow-x: hidden;
+    background-color: #f0fdf4;
+    transition: background-color 0.8s ease;
+}
+
+/* ===================================================
+   1. ANIMASI LATAR BELAKANG NORMAL (AURORA & 3D ICONS)
+=================================================== */
+#normal-bg-container {
+    background: linear-gradient(135deg, #a7f3d0 0%, #bae6fd 50%, #fbcfe8 100%);
+    overflow: hidden;
+    transition: opacity 0.8s ease;
+}
+
+.aurora-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.6;
+    animation: blobFloat 16s infinite alternate ease-in-out;
+}
+
+.blob-1 {
+    width: 450px;
+    height: 450px;
+    background: #38bdf8;
+    top: -100px;
+    left: -100px;
+}
+
+.blob-2 {
+    width: 500px;
+    height: 500px;
+    background: #f472b6;
+    bottom: -150px;
+    right: -100px;
+    animation-delay: -5s;
+}
+
+.blob-3 {
+    width: 350px;
+    height: 350px;
+    background: #facc15;
+    top: 40%;
+    left: 45%;
+    animation-delay: -8s;
+}
+
+@keyframes blobFloat {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(80px, 60px) scale(1.15); }
+    100% { transform: translate(-60px, 90px) scale(0.9); }
+}
+
+.floating-item {
+    position: absolute;
+    font-size: 3.5rem;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.12));
+    opacity: 0.75;
+    animation: itemDrift 12s infinite ease-in-out;
+}
+
+.float-item-1 { top: 12%; left: 8%; animation-duration: 9s; font-size: 4rem; }
+.float-item-2 { top: 20%; right: 10%; animation-duration: 14s; font-size: 3rem; }
+.float-item-3 { bottom: 25%; left: 12%; animation-duration: 11s; }
+.float-item-4 { bottom: 15%; right: 15%; animation-duration: 13s; font-size: 4.5rem; }
+.float-item-5 { top: 55%; left: 5%; animation-duration: 16s; }
+.float-item-6 { top: 48%; right: 6%; animation-duration: 10s; }
+.float-item-7 { top: 6%; left: 50%; animation-duration: 15s; font-size: 2.8rem; }
+
+@keyframes itemDrift {
+    0% { transform: translateY(0px) rotate(0deg) scale(1); }
+    50% { transform: translateY(-30px) rotate(15deg) scale(1.08); }
+    100% { transform: translateY(0px) rotate(0deg) scale(1); }
+}
+
+/* ===================================================
+   2. LATAR BELAKANG NIGHTMARE MODE
+=================================================== */
+body.nightmare-mode {
+    background-color: #0d0101 !important;
+}
+
+body.nightmare-mode .screen {
+    animation: bossRumble 0.18s infinite ease-in-out;
+}
+
+@keyframes bossRumble {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(-1.5px, 1.5px); }
+    50% { transform: translate(1.5px, -1px); }
+    75% { transform: translate(-1px, -1.5px); }
+    100% { transform: translate(0, 0); }
+}
+
+.blood-vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 100px #ff0000, inset 0 0 200px rgba(185, 28, 28, 0.8);
+    animation: pulseVignette 1.2s infinite ease-in-out alternate;
+}
+
+@keyframes pulseVignette {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+.crt-scanlines {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.5) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+    background-size: 100% 4px, 6px 100%;
+    z-index: 2;
+    opacity: 0.7;
+}
+
+#lightning-flash {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.85);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.flash-active {
+    animation: flashLightning 0.4s ease-out;
+}
+
+@keyframes flashLightning {
+    0% { opacity: 0.8; }
+    30% { opacity: 0.1; }
+    50% { opacity: 0.9; }
+    100% { opacity: 0; }
+}
+
+body.nightmare-mode #gameArena {
+    background-color: rgba(18, 0, 0, 0.96) !important;
+    border: 3px solid #ff1a1a !important;
+    box-shadow: 0 0 50px rgba(255, 0, 0, 0.7) !important;
+}
+
+body.nightmare-mode #question-text, 
+body.nightmare-mode #game-header-title {
+    color: #ff3333 !important;
+}
+
+body.nightmare-mode .bg-indigo-100\/80 {
+    background-color: #380000 !important;
+    border-color: #ff1a1a !important;
+}
+
+body.nightmare-mode #screen-login .bg-white\/90,
+body.nightmare-mode #screen-leaderboard .bg-white\/95 {
+    background-color: rgba(18, 0, 0, 0.95) !important;
+    border-color: #ff1a1a !important;
+    box-shadow: 0 0 40px rgba(255, 0, 0, 0.6) !important;
+}
+
+body.nightmare-mode input {
+    background-color: #2a0000 !important;
+    border-color: #ff1a1a !important;
+    color: #ffffff !important;
+}
+
+body.nightmare-mode input::placeholder {
+    color: #ff8888 !important;
+}
+
+/* ===================================================
+   3. SISTEM UI & EFEK TOMBOL
+=================================================== */
+.screen { 
+    display: none; 
+    min-height: 100vh; 
+    width: 100%; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 1.5rem;
+    position: relative;
+    z-index: 10;
+}
+.screen.active { display: flex; }
+
+.glitch {
+    position: relative;
+    font-size: 4.5rem;
+    font-weight: 800;
+    color: #4f46e5;
+    text-shadow: 4px 4px 0px #ffffff;
+    letter-spacing: 2px;
+    animation: glitch-anim 3s infinite;
+}
+
+.glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+}
+
+.glitch::before { color: #ec4899; z-index: -1; animation: glitch-color-1 3s infinite; }
+.glitch::after { color: #06b6d4; z-index: -2; animation: glitch-color-2 3s infinite; }
+
+body.nightmare-mode .glitch {
+    color: #ff1e1e !important;
+    text-shadow: 4px 4px 0px #440000 !important;
+    animation: glitch-nightmare 0.1s infinite !important;
+}
+
+@keyframes glitch-anim {
+    0%, 90%, 100% { transform: translate(0, 0); }
+    92% { transform: translate(-3px, 2px) skew(-2deg); }
+    94% { transform: translate(3px, -2px) skew(2deg); }
+    96% { transform: translate(0, 0); }
+}
+@keyframes glitch-color-1 {
+    0%, 90%, 100% { transform: translate(0, 0); }
+    92% { transform: translate(-4px, -2px); }
+    94% { transform: translate(4px, 2px); }
+}
+@keyframes glitch-color-2 {
+    0%, 90%, 100% { transform: translate(0, 0); }
+    92% { transform: translate(4px, 2px); }
+    94% { transform: translate(-4px, -2px); }
+}
+@keyframes glitch-nightmare {
+    0% { transform: translate(0, 0) skew(0deg); }
+    50% { transform: translate(-5px, 4px) skew(-10deg); }
+    100% { transform: translate(5px, -4px) skew(10deg); }
+}
+
+.btn-interactive {
+    position: relative;
+    overflow: hidden;
+}
+.btn-interactive::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 35%;
+    height: 200%;
+    background: linear-gradient(60deg, transparent, rgba(255,255,255,0.45), transparent);
+    transform: rotate(25deg);
+    transition: all 0.6s ease;
+}
+.btn-interactive:hover::after { left: 140%; }
+
+.btn-3d { transition: all 120ms cubic-bezier(0.4, 0, 0.2, 1); }
+.btn-3d:active { box-shadow: none !important; transform: translateY(5px) scale(0.98); }
+
+.grid-levels {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.8rem;
+    width: 100%;
+}
+@media (max-width: 600px) {
+    .grid-levels { grid-template-columns: repeat(4, 1fr); }
+    .glitch { font-size: 3.2rem; }
+}
+
+.shake-animation {
+    animation: shake 0.45s cubic-bezier(.36,.07,.19,.97) both;
+}
+@keyframes shake {
+    10%, 90% { transform: translate3d(-4px, 0, 0); }
+    20%, 80% { transform: translate3d(6px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
+    40%, 60% { transform: translate3d(8px, 0, 0); }
+}
