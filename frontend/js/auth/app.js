@@ -20,15 +20,37 @@
 //     changeScreen('screen-home');
 // }
 
-import { initializeAuth } from "../../controllers/auth/index.js";
+import { initializeAuth } from "../../controllers/auth/index";
+
+console.log("APP.JS BERHASIL DIMUAT");
+
+document.addEventListener("click", (event) => {
+    if (event.target.closest("#testButton")) {
+        console.log("EVENT CLICK TERDETEKSI");
+        alert("APP.JS BERHASIL MENANGKAP CLICK");
+    }
+});
+
+async function loadComponents() {
+    const loginResponse = await fetch("../../components/auth/login.html");
+    const registerResponse = await fetch("../../components/auth/register.html");
+
+    const loginHTML = await loginResponse.text();
+    const registerHTML = await registerResponse.text();
+
+    document.querySelector("#login").innerHTML = loginHTML;
+    document.querySelector("#register").innerHTML = registerHTML;
+}
+
+loadComponents();
 
 async function loadComponents() {
     const loginResponse = await fetch(
-        "../../components/auth/login.html"
+        `../../components/auth/login.html?t=${Date.now()}`
     );
 
     const registerResponse = await fetch(
-        "../../components/auth/register.html"
+        `../../components/auth/register.html?t=${Date.now()}`
     );
 
     const loginHTML = await loginResponse.text();

@@ -10,8 +10,8 @@
 
         <!-- Tab Switcher Login/Register -->
         <div class="flex w-full bg-indigo-100 p-1 rounded-xl mb-4 border border-indigo-200">
-            <button id="tab-btn-login" onclick="switchAuthTab('login')" class="w-1/2 py-2 rounded-lg font-extrabold text-sm transition-all bg-white text-indigo-900 shadow-sm">Masuk</button>
-            <button id="tab-btn-register" onclick="switchAuthTab('register')" class="w-1/2 py-2 rounded-lg font-extrabold text-sm transition-all text-indigo-600 hover:text-indigo-900">Daftar Akun</button>
+            <button type="button" id="tab-btn-login" onclick="switchAuthTab('login')" class="w-1/2 py-2 rounded-lg font-extrabold text-sm transition-all bg-white text-indigo-900 shadow-sm">Masuk</button>
+            <button type="button" id="tab-btn-register" onclick="switchAuthTab('register')" class="w-1/2 py-2 rounded-lg font-extrabold text-sm transition-all text-indigo-600 hover:text-indigo-900">Daftar Akun</button>
         </div>
 
         <!-- Form Autentikasi -->
@@ -36,7 +36,7 @@
             <div class="flex-grow border-t border-indigo-200"></div>
         </div>
 
-        <button onclick="loginAsGuest()" class="w-full btn-interactive btn-3d bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold py-3 rounded-xl text-lg shadow-[0_4px_0_#b45309]">
+        <button type="button" onclick="loginAsGuest()" class="w-full btn-interactive btn-3d bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold py-3 rounded-xl text-lg shadow-[0_4px_0_#b45309]">
             🎮 Main sebagai Tamu (Guest)
         </button>
     </div>
