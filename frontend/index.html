@@ -1,50 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SigmaBrain - Login</title>
-
-    <link rel="stylesheet" href="./styles/style.css">
-    <link rel="stylesheet" href="./styles/toast.css">
-</head>
-<body class="select-none overflow-x-hidden">
-    <!-- ================= LAPISAN LATAR BELAKANG NORMAL ================= -->
-    <div id="normal-bg-container" class="fixed inset-0 pointer-events-none z-0">
-        <!-- Aurora Blobs Glow -->
-        <div class="aurora-blob blob-1"></div>
-        <div class="aurora-blob blob-2"></div>
-        <div class="aurora-blob blob-3"></div>
-
-        <!-- Ikon Edukasi 3D Melayang Bebas -->
-        <div class="floating-item float-item-1">🚀</div>
-        <div class="floating-item float-item-2">⭐</div>
-        <div class="floating-item float-item-3">💡</div>
-        <div class="floating-item float-item-4">🪐</div>
-        <div class="floating-item float-item-5">📐</div>
-        <div class="floating-item float-item-6">🎨</div>
-        <div class="floating-item float-item-7">🧩</div>
-    </div>
-
-    <!-- CANVAS UNTUK EFEK CELEBRATION (CONFETTI) -->
-    <canvas id="confetti-canvas" class="pointer-events-none fixed inset-0 z-50"></canvas>
-
-    <!-- KONTROL AUDIO & STATUS BAR ATAS -->
-    <div class="fixed top-4 right-4 z-40 flex items-center gap-3">
-        <div id="streak-badge" class="hidden bg-amber-400 text-amber-950 font-black px-4 py-2 rounded-full shadow-lg border-2 border-white flex items-center gap-1 animate-bounce">
-            🔥 <span id="streak-count">0</span>x Combo!
-        </div>
-        <button id="btn-sound-toggle" onclick="toggleAudio()" class="btn-3d bg-white/90 text-indigo-700 p-3 rounded-full shadow-md hover:bg-white text-xl backdrop-blur-sm border-2 border-indigo-200">
-            🔊
-        </button>
-    </div>
-
-    <section id="login"></section>
-    <section id="register" class="hidden"></section>
-    
-    <script type="module" src="./js/auth/app.js"></script>
-    <script type="module" src="./js/toast.js"></script>
-    <script src="./js/sound.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SigmaBrain</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-</body>
+  </body>
 </html>

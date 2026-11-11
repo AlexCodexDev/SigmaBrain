@@ -5,10 +5,22 @@ import router from "./routes/main.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const allowOrigins = process.env.ALLOWORIGINS?.split(",").map(
+    (origin) => origin.trim()
+);
+const allowMethods = process.env.ALLOWMETHODS?.split(",").map(
+    (method) => method.trim()
+);
+const allowHeaders = process.env.ALLOWHEADERS?.split(",").map(
+    (header) => header.trim()
+);
 
 app.use(cors({
-    origin: "http://127.0.0.1:8080"
+    origin: allowOrigins,
+    methods: allowMethods,
+    allowedHeaders: allowHeaders
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

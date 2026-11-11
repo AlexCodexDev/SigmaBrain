@@ -281,3 +281,14 @@ body.nightmare-mode .glitch {
     30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
     40%, 60% { transform: translate3d(8px, 0, 0); }
 }
+
+/* START: Notification */
+.btn-dismiss-notification {
+    background-color: transparent;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    border: none;
+    margin-bottom: 3px;
+}
+/* END: Notification */
