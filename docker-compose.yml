@@ -51,6 +51,12 @@ services:
     ports:
       - "3000:3000"
 
+    command: "pnpm dev"
+
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
     depends_on:
       mysql:
         condition: service_healthy

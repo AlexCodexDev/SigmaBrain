@@ -1,25 +1,26 @@
 import { closeSnackbar, enqueueSnackbar } from "notistack";
 
-type Props = {
-    message: string;
-    variantType: "default" | "error" | "success" | "warning" | "info";
-    persist: boolean;
-}
+type VariantType =
+    | "default"
+    | "error"
+    | "success"
+    | "warning"
+    | "info";
 
-export function Notifications({ message, variantType, persist }: Props) {
-    if(persist) {
-        enqueueSnackbar(message, {
-            variant: variantType,
-            persist: true,
-            action: (key) => (
-                <button onClick={() => closeSnackbar(key)} className="btn-dismiss-notification">
+export function Notification(
+    message: string,
+    variantType: VariantType = "default",
+    persist = false
+) {
+    return enqueueSnackbar(message, {
+        variant: variantType,
+        persist,
+        action: persist
+            ? (key) => (
+                <button onClick={() => closeSnackbar(key)}>
                     x
                 </button>
             )
-        });
-    } else {
-        enqueueSnackbar(message, {
-            variant: variantType,
-        });
-    }
+            : undefined
+    });
 }

@@ -1,6 +1,90 @@
+import { useState } from "react";
 import AuthNavigate from "../../components/AuthNavigate";
+import { Notification } from "../../components/Notification";
+
+interface LoginForm {
+    email: string;
+    password: string;
+}
 
 export default function LoginPage() {
+    // START: ClassName Declaration
+    const inputClass = "w-full px-4 py-3 rounded-xl border-2 border-indigo-200 focus:border-indigo-500 focus:outline-none text-indigo-950 font-bold transition-all bg-indigo-50/50";
+    const labelClass = "block text-indigo-950 font-extrabold mb-1 text-xs uppercase tracking-wider";
+    // END: ClassName Declaration
+
+    // START: Form Declaration
+    const [form, setForm] = useState<LoginForm>({
+        email: "",
+        password: ""
+    });
+    const [loading, setLoading] = useState(false);
+    // END: Form Declaration
+
+    // START: Handle Form
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value
+        });
+    }
+
+    const handleSubmit = async (
+        e: React.FormEvent<HTMLFormElement>
+    ) => {
+        e.preventDefault();
+
+        setLoading(true);
+
+        try {
+            const response = await fetch(
+                "http://localhost:3000/api/auth/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify(form)
+                }
+            )
+
+            const result = await response.json();
+
+            if(!response.ok) {
+                Notification(
+                    result.message,
+                    "error",
+                    false
+                );
+
+                return;
+            }
+
+            Notification(
+                result.message,
+                "success",
+                false
+            );
+
+            setForm({
+                email: "",
+                password: ""
+            });
+        } catch (error: any) {
+            Notification(
+                error.message,
+                "error",
+                false
+            )
+        } finally {
+            setLoading(false);
+        }
+    }
+    // END: Handle Form
+
     return (
         <div id="screen-login" className="screen active">
             <div className="w-full max-w-md bg-white/90 backdrop-blur-md p-8 rounded-[2.5rem] shadow-2xl border-4 border-indigo-100 flex flex-col items-center relative z-10">
@@ -13,18 +97,40 @@ export default function LoginPage() {
 
                 <AuthNavigate />
 
-                <form id="loginForm" className="w-full flex flex-col gap-3">
+                <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3">
                     <div>
-                        <label className="block text-indigo-950 font-extrabold mb-1 text-xs uppercase tracking-wider">Nama Pemain</label>
-                        <input type="text" id="login-username" required placeholder="Contoh: MichaelGamers" autoComplete="off" className="w-full px-4 py-3 rounded-xl border-2 border-indigo-200 focus:border-indigo-500 focus:outline-none text-indigo-950 font-bold transition-all bg-indigo-50/50" />
+                        <label className={labelClass}>Nama Pemain</label>
+                        <input
+                            type="email"
+                            name="email"
+                            required
+                            placeholder="Contoh: MichaelGamers"
+                            autoComplete="off"
+                            className={inputClass}
+                            value={form.email}
+                            onChange={handleChange}
+                        />
                     </div>
                     <div>
-                        <label className="block text-indigo-950 font-extrabold mb-1 text-xs uppercase tracking-wider">Kata Sandi</label>
-                        <input type="password" id="login-password" required placeholder="••••••••" autoComplete="off" className="w-full px-4 py-3 rounded-xl border-2 border-indigo-200 focus:border-indigo-500 focus:outline-none text-indigo-950 font-bold transition-all bg-indigo-50/50" />
+                        <label className={labelClass}>Kata Sandi</label>
+                        <input
+                            type="password"
+                            name="password"
+                            required
+                            placeholder="••••••••"
+                            autoComplete="off"
+                            className={inputClass}
+                            value={form.password}
+                            onChange={handleChange}
+                        />
                     </div>
                     
-                    <button type="submit" className="mt-2 w-full btn-interactive btn-3d bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-xl text-xl shadow-[0_5px_0_#312e81]">
-                        🚀 Masuk & Main
+                    <button
+                        type="submit"
+                        className="mt-2 w-full btn-interactive btn-3d bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-xl text-xl shadow-[0_5px_0_#312e81]"
+                        disabled={loading}    
+                    >
+                        {loading ? "Loading..." : "🚀 Masuk & Main"}
                     </button>
                 </form>
 
