@@ -8,8 +8,8 @@ import {
 
 interface User {
   id: number;
-  username: string;
   email: string;
+  username: string;
 }
 
 interface AuthContextType {
@@ -47,12 +47,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function logout() {
-    await fetch("http://localhost:3000/api/auth/logout", {
-      method: "POST",
-      credentials: "include",
-    });
-
-    setUser(null);
+    try {
+      await fetch("http://localhost:3000/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } finally {
+      setUser(null);
+    }
   }
 
   useEffect(() => {

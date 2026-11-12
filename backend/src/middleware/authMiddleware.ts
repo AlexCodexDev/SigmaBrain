@@ -5,6 +5,7 @@ export interface AuthRequest extends Request {
     user?: {
         id: number;
         email: string;
+        username: string;
     };
 }
 
@@ -31,11 +32,13 @@ export function AuthMiddleware(
         const decoded = jwt.verify(token, secret) as {
             id: number;
             email: string;
+            username: string;
         };
 
         req.user = {
             id: decoded.id,
-            email: decoded.email
+            email: decoded.email,
+            username: decoded.username
         };
 
         next();

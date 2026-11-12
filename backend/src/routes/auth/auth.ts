@@ -8,5 +8,6 @@ AuthRouter.get("/me", AuthMiddleware, Controller.CheckAuthController);
 
 AuthRouter.post("/register", Controller.RegisterController);
 AuthRouter.post("/login", Controller.LoginController);
+AuthRouter.post("/logout", Controller.LogoutController);
 
 export default AuthRouter;

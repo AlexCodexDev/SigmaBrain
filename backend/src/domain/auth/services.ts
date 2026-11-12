@@ -73,7 +73,8 @@ export async function LoginServices(data: any) {
     const token = jwt.sign(
         {
             id: user.id,
-            email: user.email
+            email: user.email,
+            username: user.username
         },
         secret,
         {
