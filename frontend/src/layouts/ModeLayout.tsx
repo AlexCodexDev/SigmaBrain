@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
 
-export default function LevelLayout() {
+export default function ModeLayout() {
     return <Outlet />;
 }

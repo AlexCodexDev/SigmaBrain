@@ -29,7 +29,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const response = await fetch(
         "http://localhost:3000/api/auth/me",
-        { credentials: "include" }
+        {
+          method: "GET",
+          credentials: "include"
+        }
       );
 
       if (!response.ok) {

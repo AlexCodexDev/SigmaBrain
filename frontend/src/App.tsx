@@ -7,8 +7,9 @@ import LobbyPage from "./pages/lobby";
 import BahasaMenuPage from "./pages/lobby/bahasa";
 import LobbyLayout from "./layouts/LobbyLayout";
 import UserLayout from "./layouts/UserLayout";
-import LevelLayout from "./layouts/LevelLayout";
 import LevelPage from "./components/Level";
+import ModesPage from "./components/Modes";
+import ModeLayout from "./layouts/ModeLayout";
 
 export default function App() {
   const routes = useRoutes([
@@ -54,11 +55,15 @@ export default function App() {
         },
         {
           path: "/bahasa-indonesia",
-          element: <LevelLayout />,
+          element: <ModeLayout />,
           children: [
             {
               index: true,
-              element: <Navigate to="tingkat" replace />
+              element: <Navigate to="mode" replace />
+            },
+            {
+              path: "mode",
+              element: <ModesPage />
             },
             {
               path: "tingkat",
@@ -68,11 +73,15 @@ export default function App() {
         },
         {
           path: "/bahasa-inggris",
-          element: <LevelLayout />,
+          element: <ModeLayout />,
           children: [
             {
               index: true,
-              element: <Navigate to="tingkat" replace />
+              element: <Navigate to="mode" replace />
+            },
+            {
+              path: "mode",
+              element: <ModesPage />
             },
             {
               path: "tingkat",
@@ -82,11 +91,15 @@ export default function App() {
         },
         {
           path: "/matematika",
-          element: <LevelLayout />,
+          element: <ModeLayout />,
           children: [
             {
               index: true,
-              element: <Navigate to="tingkat" replace />
+              element: <Navigate to="mode" replace />
+            },
+            {
+              path: "mode",
+              element: <ModesPage />
             },
             {
               path: "tingkat",

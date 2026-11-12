@@ -1,17 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import LevelPage from "../../../components/Level";
 
 export default function BahasaMenuPage() {
     const navigate = useNavigate();
 
     return (
         <>
-            <div id="screen-bahasa" className="screen">
+            <div className="screen">
                 <h1 className="glitch mb-10 text-center text-4xl" data-text="Pilih Bahasa">Pilih Bahasa</h1>
                 
                 <div className="flex flex-col gap-5 w-full max-w-sm relative z-10">
                     <button
-                        onClick={() => navigate("/bahasa-indonesia/tingkat")}
+                        onClick={() => navigate("/bahasa-indonesia/mode")}
                         className="btn-interactive btn-3d bg-red-500 hover:bg-red-600 text-white font-bold py-5 rounded-2xl text-2xl shadow-[0_6px_0_#991b1b] flex items-center justify-center gap-2"
                     >
                         🇮🇩 Bahasa Indonesia
@@ -30,7 +29,6 @@ export default function BahasaMenuPage() {
                     </button>
                 </div>
             </div>
-            <LevelPage />
         </>
     );
 }
