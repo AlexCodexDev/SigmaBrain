@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap');
+@import "tailwindcss";
 
 body { 
     font-family: 'Baloo 2', cursive; 
@@ -178,7 +179,7 @@ body.nightmare-mode input::placeholder {
    3. SISTEM UI & EFEK TOMBOL
 =================================================== */
 .screen { 
-    display: none; 
+    display: flex; 
     min-height: 100vh; 
     width: 100%; 
     flex-direction: column; 
@@ -188,7 +189,6 @@ body.nightmare-mode input::placeholder {
     position: relative;
     z-index: 10;
 }
-.screen.active { display: flex; }
 
 .glitch {
     position: relative;

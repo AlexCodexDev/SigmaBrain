@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import * as DAO from "./dao.js";
-import jwt, { SignOptions } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 export async function RegisterServices(data: any) {
     const {
@@ -61,7 +61,7 @@ export async function LoginServices(data: any) {
     );
 
     if(!passwordValid) {
-        throw new Error("Email atau password salah.")
+        throw new Error("Email atau password salah.");
     }
 
     const secret = process.env.JWT_SECRET;

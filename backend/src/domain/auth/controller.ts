@@ -34,7 +34,7 @@ export async function LoginController(req: Request, res: Response) {
             path: "/"
         });
 
-        return res.status(200).json(result.message);
+        return res.status(200).json(result);
     } catch (error: any) {
         return res.status(500).json(error.message);
     }

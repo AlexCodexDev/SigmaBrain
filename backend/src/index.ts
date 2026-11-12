@@ -16,14 +16,15 @@ const allowHeaders = process.env.ALLOWHEADERS?.split(",").map(
     (header) => header.trim()
 );
 
+app.use(express.json());
+
 app.use(cors({
     origin: allowOrigins,
     methods: allowMethods,
-    allowedHeaders: allowHeaders
+    allowedHeaders: allowHeaders,
+    credentials: true
 }));
-
 app.use(cookieParser());
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
