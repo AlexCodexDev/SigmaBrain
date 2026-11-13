@@ -11,21 +11,16 @@ export const users = mysqlTable("users", {
 
 export const questions = mysqlTable("questions", {
     id: bigint("id", { mode: "number", unsigned: true }).primaryKey().autoincrement(),
-    levelId: bigint("level_id", { mode: "number", unsigned: true }).notNull(),
     gameModesId: bigint("gameModesId", { mode: "number", unsigned: true }).notNull(),
     questionType: mysqlEnum(["", "bahasa_indonesia", "bahasa_inggris", "matematika"]).default(""),
-    questionText: varchar("question_text", { length: 255 }).notNull(),
+    questionText: text("question_text").notNull(),
     attachment: text("attachment"),
-    answer: varchar("answer", { length: 255 }).notNull(),
+    answer: text("answer").notNull(),
     point: int("point", { unsigned: true }).notNull(),
     isActive: boolean("is_active").default(true),
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").$onUpdateFn(() => new Date())
 }, (table) => [
-    foreignKey({
-        columns: [table.levelId],
-        foreignColumns: [levels.id]
-    }),
     foreignKey({
         columns: [table.gameModesId],
         foreignColumns: [gameModes.id]
@@ -35,7 +30,7 @@ export const questions = mysqlTable("questions", {
 export const answerOptions = mysqlTable("answer_options", {
     id: bigint('id', { mode: "number", unsigned: true }).primaryKey().autoincrement(),
     questionsId: bigint("questions_id", { mode: "number", unsigned: true }).notNull(),
-    option: varchar("option", { length: 255 }).notNull(),
+    option: text("option").notNull(),
     isCorrect: boolean("is_correct").default(false),
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").$onUpdateFn(() => new Date())

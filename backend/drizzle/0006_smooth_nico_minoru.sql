@@ -1,0 +1,1 @@
+ALTER TABLE `questions` MODIFY COLUMN `question_text` text NOT NULL;

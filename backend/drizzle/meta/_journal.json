@@ -36,6 +36,27 @@
       "when": 1794568163894,
       "tag": "0004_mighty_medusa",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1794581963577,
+      "tag": "0005_good_micromacro",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1794585369164,
+      "tag": "0006_smooth_nico_minoru",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1794589417543,
+      "tag": "0007_exotic_king_bedlam",
+      "breakpoints": true
     }
   ]
 }

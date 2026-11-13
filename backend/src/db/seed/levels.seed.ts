@@ -16,5 +16,5 @@ export async function run() {
         }
     });
 
-    console.log("Data game modes berhasil dimasukan!");
+    console.log("Data levels berhasil dimasukan!");
 }

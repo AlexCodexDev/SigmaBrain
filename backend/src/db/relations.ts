@@ -16,15 +16,10 @@ export const levelsRelations = relations(levels, ({ one, many }) => ({
         fields: [levels.gameModesId],
         references: [gameModes.id]
     }),
-    questions: many(questions),
     gameSessions: many(gameSessions)
 }));
 
 export const questionsRelations = relations(questions, ({ one, many }) => ({
-    levels: one(levels, {
-        fields: [questions.levelId],
-        references: [levels.id]
-    }),
     gameModesId: one(gameModes, {
         fields: [questions.gameModesId],
         references: [gameModes.id]
