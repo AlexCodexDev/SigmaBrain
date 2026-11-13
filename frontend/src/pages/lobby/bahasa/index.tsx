@@ -16,7 +16,7 @@ export default function BahasaMenuPage() {
                         🇮🇩 Bahasa Indonesia
                     </button>
                     <button
-                        onClick={() => navigate("/bahasa-inggris/tingkat")}
+                        onClick={() => navigate("/bahasa-inggris/mode")}
                         className="btn-interactive btn-3d bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-5 rounded-2xl text-2xl shadow-[0_6px_0_#312e81] flex items-center justify-center gap-2"
                     >
                         🇬🇧 Bahasa Inggris

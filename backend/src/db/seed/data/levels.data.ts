@@ -12,7 +12,7 @@ export const levelData = Array.from(
 
         return difficulties.map(item => ({
             ...item,
-            level: index
+            level: level
         }));
     }
 ).flat();

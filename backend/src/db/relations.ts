@@ -7,7 +7,8 @@ export const userRelations = relations(users, ({ many }) => ({
 
 export const gameModesRelations = relations(gameModes, ({ many }) => ({
     levels: many(levels),
-    gameSessions: many(gameSessions)
+    gameSessions: many(gameSessions),
+    questions: many(questions)
 }));
 
 export const levelsRelations = relations(levels, ({ one, many }) => ({
@@ -23,6 +24,10 @@ export const questionsRelations = relations(questions, ({ one, many }) => ({
     levels: one(levels, {
         fields: [questions.levelId],
         references: [levels.id]
+    }),
+    gameModesId: one(gameModes, {
+        fields: [questions.gameModesId],
+        references: [gameModes.id]
     }),
     answerOptions: many(answerOptions),
     userAnswers: many(userAnswers)

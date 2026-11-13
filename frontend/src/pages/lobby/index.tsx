@@ -42,7 +42,7 @@ export default function LobbyPage() {
             
             <div className="flex flex-col gap-5 w-full max-w-sm relative z-10">
                 <button
-                    onClick={() => navigate("/matematika/tingkat")}
+                    onClick={() => navigate("/matematika/mode")}
                     className="btn-interactive btn-3d bg-blue-500 hover:bg-blue-600 text-white font-extrabold py-5 rounded-2xl text-2xl shadow-[0_6px_0_#1e3a8a] flex items-center justify-center gap-3"
                 >
                     <span>🧮</span> Menghitung

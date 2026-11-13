@@ -12,10 +12,10 @@ export const users = mysqlTable("users", {
 export const questions = mysqlTable("questions", {
     id: bigint("id", { mode: "number", unsigned: true }).primaryKey().autoincrement(),
     levelId: bigint("level_id", { mode: "number", unsigned: true }).notNull(),
+    gameModesId: bigint("gameModesId", { mode: "number", unsigned: true }).notNull(),
     questionText: varchar("question_text", { length: 255 }).notNull(),
     attachment: text("attachment"),
     answer: varchar("answer", { length: 255 }).notNull(),
-    difficulty: varchar("difficulty", { length: 50 }).notNull(),
     point: int("point", { unsigned: true }).notNull(),
     isActive: boolean("is_active").default(true),
     createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -24,6 +24,10 @@ export const questions = mysqlTable("questions", {
     foreignKey({
         columns: [table.levelId],
         foreignColumns: [levels.id]
+    }),
+    foreignKey({
+        columns: [table.gameModesId],
+        foreignColumns: [gameModes.id]
     })
 ]);
 

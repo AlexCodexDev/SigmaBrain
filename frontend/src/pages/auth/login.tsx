@@ -81,7 +81,7 @@ export default function LoginPage() {
                 password: ""
             });
 
-            navigate("/lobby", { replace: true });
+            navigate("/lobi", { replace: true });
         } catch (error: any) {
             Notification(
                 error.message,
