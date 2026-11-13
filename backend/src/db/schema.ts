@@ -1,4 +1,4 @@
-import { bigint, boolean, foreignKey, int, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { bigint, boolean, foreignKey, int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable("users", {
     id: bigint("id", { mode: "number", unsigned: true }).primaryKey().autoincrement(),
@@ -13,6 +13,7 @@ export const questions = mysqlTable("questions", {
     id: bigint("id", { mode: "number", unsigned: true }).primaryKey().autoincrement(),
     levelId: bigint("level_id", { mode: "number", unsigned: true }).notNull(),
     gameModesId: bigint("gameModesId", { mode: "number", unsigned: true }).notNull(),
+    questionType: mysqlEnum(["", "bahasa_indonesia", "bahasa_inggris", "matematika"]).default(""),
     questionText: varchar("question_text", { length: 255 }).notNull(),
     attachment: text("attachment"),
     answer: varchar("answer", { length: 255 }).notNull(),

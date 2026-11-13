@@ -1,0 +1,1 @@
+ALTER TABLE `questions` ADD `questionType` enum('','bahasa_indonesia','bahasa_inggris','matematika') DEFAULT '';
