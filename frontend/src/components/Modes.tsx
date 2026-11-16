@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Notification } from "./Notification";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useGameAudio } from "../hooks/useGameAudio";
 
 interface GameModesProps {
     id: number;
@@ -10,6 +12,18 @@ interface GameModesProps {
 export default function ModesPage() {
     const navigate = useNavigate();
     const location = useLocation();
+    const { user, logout } = useAuth();
+
+    const {
+        playSound,
+        unlockAudio
+    } = useGameAudio();
+        
+    async function handleLogout() {
+        await logout();
+        
+        navigate("/login", { replace: true });
+    }
 
     const pathname = location.pathname.split("/")[1];
 
@@ -45,6 +59,7 @@ export default function ModesPage() {
     }
 
     useEffect(() => {
+        unlockAudio();
         getGameModes();
     }, []);
 
@@ -64,27 +79,57 @@ export default function ModesPage() {
     return (
         <>
             <div className="screen">
+                <div className="absolute top-4 left-4 z-20 flex items-center gap-3">
+                    <div className="flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md">
+                        <span className="text-xl">👤</span>
+                        <div>
+                            <span id="user-display-name" className="font-extrabold text-indigo-900 block leading-tight">{user?.username}</span>
+                            <span className="text-[10px] text-amber-600 font-black uppercase tracking-wider">🏆 Highscore: <span id="user-high-score">0</span></span>
+                        </div>
+                        <button
+                            onClick={() => {
+                                handleLogout;
+                                playSound("click");
+                            }}
+                            title="Keluar Akun"
+                            className="ml-2 text-xs bg-red-100 text-red-600 px-2 py-1 rounded-md hover:bg-red-200 font-extrabold transition-all cursor-pointer"
+                        >
+                            Logout
+                        </button>
+                    </div>
+                    
+                    <button className="btn-3d bg-yellow-400 hover:bg-yellow-500 text-yellow-950 font-black p-3 rounded-full shadow-md text-xl border-2 border-white flex items-center justify-center">
+                        🏆
+                    </button>
+                </div>
+
                 <h1 className="glitch mb-10 text-center text-4xl" data-text="Pilih Kesulitan">Pilih Kesulitan</h1>
                 
                 <div className="flex flex-col gap-5 w-full max-w-sm relative z-10">
                     {gameModesData.map((item: any, index: number) => (
                         <button
                             key={index}
-                            onClick={() => navigate(`/${pathname}/tingkat`, { state: { difficulty: item.name, gameModeId: item.id } })}
+                            onClick={() => {
+                                navigate(`/${pathname}/tingkat`, { state: { difficulty: item.name, gameModesId: item.id, name: pathname } });
+                                playSound("click");
+                            }}
                             className={`
                                 ${item.name === "easy" ? "bg-green-500 hover:bg-green-600" : ""}
                                 ${item.name === "medium" ? "bg-yellow-500 hover:bg-yellow-600" : ""}
                                 ${item.name === "hard" ? "bg-orange-500 hover:bg-orange-600" : ""}
-                                ${item.name === "master" ? "bg-red-500 hover:bg-red-600" : ""}
-                                btn-interactive btn-3d text-white font-bold py-5 rounded-2xl text-2xl shadow-[0_6px_0_#991b1b] flex items-center justify-center gap-2
+                                ${item.name === "nightmare" ? "bg-red-500 hover:bg-red-600" : ""}
+                                btn-interactive btn-3d text-white font-bold py-5 rounded-2xl text-2xl shadow-[0_6px_0_#991b1b] flex items-center justify-center gap-2 cursor-pointer
                             `}
                         >
-                            {item.name}
+                            {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
                         </button>
                     ))}
                     <button
-                        onClick={() => navigate(-1)}
-                        className="mt-4 text-indigo-800 bg-white/70 py-3 rounded-full font-bold text-lg hover:bg-white backdrop-blur-sm transition-all shadow"
+                        onClick={() => {
+                            navigate(-1);
+                            playSound("click");
+                        }}
+                        className="mt-4 text-indigo-800 bg-white/70 py-3 rounded-full font-bold text-lg hover:bg-white backdrop-blur-sm transition-all shadow cursor-pointer"
                     >
                         ⬅️ Kembali ke Menu
                     </button>

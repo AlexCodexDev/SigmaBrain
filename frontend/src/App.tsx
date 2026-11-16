@@ -10,6 +10,8 @@ import UserLayout from "./layouts/UserLayout";
 import LevelPage from "./components/Level";
 import ModesPage from "./components/Modes";
 import ModeLayout from "./layouts/ModeLayout";
+import QuestionPage from "./components/Questions";
+import LeaderBoardPage from "./components/LeaderBoard";
 
 export default function App() {
   const routes = useRoutes([
@@ -68,6 +70,10 @@ export default function App() {
             {
               path: "tingkat",
               element: <LevelPage />
+            },
+            {
+              path: "main",
+              element: <QuestionPage />
             }
           ]
         },
@@ -106,6 +112,10 @@ export default function App() {
               element: <LevelPage />
             }
           ]
+        },
+        {
+          path: "/leaderboard",
+          element: <LeaderBoardPage />
         }
       ]
     },

@@ -57,6 +57,27 @@
       "when": 1794589417543,
       "tag": "0007_exotic_king_bedlam",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1794815492323,
+      "tag": "0008_blushing_moon_knight",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1794833567303,
+      "tag": "0009_melodic_screwball",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1794836106963,
+      "tag": "0010_daffy_mandroid",
+      "breakpoints": true
     }
   ]
 }

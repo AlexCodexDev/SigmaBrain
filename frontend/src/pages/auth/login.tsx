@@ -3,6 +3,7 @@ import AuthNavigate from "../../components/AuthNavigate";
 import { Notification } from "../../components/Notification";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useGameAudio } from "../../hooks/useGameAudio";
 
 interface LoginForm {
     email: string;
@@ -12,6 +13,11 @@ interface LoginForm {
 export default function LoginPage() {
     const navigate = useNavigate();
     const { checkAuth } = useAuth();
+
+    const {
+        playSound,
+        unlockAudio
+    } = useGameAudio();
 
     // START: ClassName Declaration
     const inputClass = "w-full px-4 py-3 rounded-xl border-2 border-indigo-200 focus:border-indigo-500 focus:outline-none text-indigo-950 font-bold transition-all bg-indigo-50/50";
@@ -44,6 +50,8 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
+            unlockAudio();
+
             const response = await fetch(
                 "http://localhost:3000/api/auth/login",
                 {
@@ -59,6 +67,8 @@ export default function LoginPage() {
             const result = await response.json();
 
             if(!response.ok) {
+                playSound("wrong");
+
                 Notification(
                     result || "Login gagal!",
                     "error",
@@ -95,8 +105,8 @@ export default function LoginPage() {
     // END: Handle Form
 
     return (
-        <div id="screen-login" className="screen">
-            <div className="w-full max-w-md bg-white/90 backdrop-blur-md p-8 rounded-[2.5rem] shadow-2xl border-4 border-indigo-100 flex flex-col items-center relative z-10">
+        <div className="screen">
+            <div className="w-full max-w-xl bg-white/90 backdrop-blur-md p-8 rounded-[2.5rem] shadow-2xl border-4 border-indigo-100 flex flex-col items-center relative z-10">
                 <div className="bg-indigo-50 rounded-full p-3 mb-2 border-4 border-indigo-200 shadow-inner">
                     <img src="https://api.dicebear.com/7.x/bottts/svg?seed=LoginBot&backgroundColor=transparent" alt="Avatar" className="w-20 h-20 bounce-anim" />
                 </div>
@@ -136,6 +146,7 @@ export default function LoginPage() {
                     
                     <button
                         type="submit"
+                        onClick={() => playSound("click")}
                         className="mt-2 w-full btn-interactive btn-3d bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-xl text-xl shadow-[0_5px_0_#312e81] cursor-pointer"
                         disabled={loading}
                     >
@@ -145,16 +156,9 @@ export default function LoginPage() {
 
                 <div className="w-full flex items-center my-4">
                     <div className="grow border-t border-indigo-200"></div>
-                    <span className="px-3 text-xs text-indigo-400 font-bold uppercase">atau</span>
+                    <span className="px-3 text-xs text-indigo-400 font-bold uppercase">&copy; 2026 SigmaBrain</span>
                     <div className="grow border-t border-indigo-200"></div>
                 </div>
-
-                <button
-                    type="button"
-                    className="w-full btn-interactive btn-3d bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold py-3 rounded-xl text-lg shadow-[0_4px_0_#b45309] cursor-pointer"
-                >
-                    🎮 Main sebagai Tamu (Guest)
-                </button>
             </div>
         </div>
     );

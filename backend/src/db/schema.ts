@@ -12,6 +12,7 @@ export const users = mysqlTable("users", {
 export const questions = mysqlTable("questions", {
     id: bigint("id", { mode: "number", unsigned: true }).primaryKey().autoincrement(),
     gameModesId: bigint("gameModesId", { mode: "number", unsigned: true }).notNull(),
+    levelId: bigint("level_id", { mode: "number", unsigned: true }),
     questionType: mysqlEnum(["", "bahasa_indonesia", "bahasa_inggris", "matematika"]).default(""),
     questionText: text("question_text").notNull(),
     attachment: text("attachment"),
@@ -24,6 +25,10 @@ export const questions = mysqlTable("questions", {
     foreignKey({
         columns: [table.gameModesId],
         foreignColumns: [gameModes.id]
+    }),
+    foreignKey({
+        columns: [table.levelId],
+        foreignColumns: [levels.id]
     })
 ]);
 
@@ -66,7 +71,6 @@ export const gameSessions = mysqlTable("game_sessions", {
     id: bigint('id', { mode: "number", unsigned: true }).primaryKey().autoincrement(),
     userId: bigint("user_id", { mode: "number", unsigned: true }).notNull(),
     gameModesId: bigint("game_modes_id", { mode: "number", unsigned: true }).notNull(),
-    levelId: bigint("level_id", { mode: "number", unsigned: true }).notNull(),
     totalQuestions: int("total_questions", { unsigned: true }).notNull(),
     correctAnswers: int("correct_answers", { unsigned: true }).notNull(),
     wrongAnswers: int("wrong_answers", { unsigned: true }).notNull(),
@@ -81,10 +85,6 @@ export const gameSessions = mysqlTable("game_sessions", {
     foreignKey({
         columns: [table.gameModesId],
         foreignColumns: [gameModes.id]
-    }),
-    foreignKey({
-        columns: [table.levelId],
-        foreignColumns: [levels.id]
     })
 ]);
 
@@ -93,6 +93,7 @@ export const userAnswers = mysqlTable("user_answers", {
     gameSessionsId: bigint("game_sessions_id", { mode: "number", unsigned: true }).notNull(),
     questionsId: bigint("questions_id", { mode: "number", unsigned: true }).notNull(),
     answerOptionsId: bigint("answer_options_id", { mode: "number", unsigned: true }).notNull(),
+    levelId: bigint("level_id", { mode: "number", unsigned: true }),
     isCorrect: boolean("is_correct").default(false),
     scoreEarned: int("score_earned", { unsigned: true }).notNull(),
     createdAt: timestamp("created_at").defaultNow(),
@@ -109,5 +110,9 @@ export const userAnswers = mysqlTable("user_answers", {
     foreignKey({
         columns: [table.answerOptionsId],
         foreignColumns: [answerOptions.id]
+    }),
+    foreignKey({
+        columns: [table.levelId],
+        foreignColumns: [levels.id]
     })
 ]);

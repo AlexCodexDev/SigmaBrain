@@ -1,0 +1,2 @@
+ALTER TABLE `user_answers` ADD `level_id` bigint unsigned;--> statement-breakpoint
+ALTER TABLE `user_answers` ADD CONSTRAINT `user_answers_level_id_levels_id_fk` FOREIGN KEY (`level_id`) REFERENCES `levels`(`id`) ON DELETE no action ON UPDATE no action;

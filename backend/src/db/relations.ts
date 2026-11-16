@@ -16,7 +16,8 @@ export const levelsRelations = relations(levels, ({ one, many }) => ({
         fields: [levels.gameModesId],
         references: [gameModes.id]
     }),
-    gameSessions: many(gameSessions)
+    questions: many(questions),
+    userAnswers: many(levels)
 }));
 
 export const questionsRelations = relations(questions, ({ one, many }) => ({
@@ -24,11 +25,15 @@ export const questionsRelations = relations(questions, ({ one, many }) => ({
         fields: [questions.gameModesId],
         references: [gameModes.id]
     }),
+    levels: one(levels, {
+        fields: [questions.levelId],
+        references: [levels.id]
+    }),
     answerOptions: many(answerOptions),
     userAnswers: many(userAnswers)
 }));
 
-export const answerOptinosRelations = relations(answerOptions, ({ one, many }) => ({
+export const answerOptionsRelations = relations(answerOptions, ({ one, many }) => ({
     questions: one(questions, {
         fields: [answerOptions.questionsId],
         references: [questions.id],
@@ -45,10 +50,6 @@ export const gameSessionsrelations = relations(gameSessions, ({ one, many }) => 
         fields: [gameSessions.gameModesId],
         references: [gameModes.id]
     }),
-    levels: one(levels, {
-        fields: [gameSessions.levelId],
-        references: [levels.id]
-    }),
     userAnswers: many(userAnswers)
 }));
 
@@ -64,5 +65,9 @@ export const userAnswersrelations = relations(userAnswers, ({ one }) => ({
     answerOptions: one(answerOptions, {
         fields: [userAnswers.answerOptionsId],
         references: [answerOptions.id]
+    }),
+    levels: one(levels, {
+        fields: [userAnswers.levelId],
+        references: [levels.id]
     })
 }))

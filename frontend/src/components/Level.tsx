@@ -1,51 +1,157 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom"
 import { Notification } from "./Notification";
+import { useAuth } from "../context/AuthContext";
+import { useGameAudio } from "../hooks/useGameAudio";
 
 interface LevelsProps {
     id: number;
     level: number;
+    hasUserAnswer: boolean;
 }
 
 export default function LevelPage() {
     const navigate = useNavigate();
     const location = useLocation();
+    const { user, logout } = useAuth();
+
+    const {
+        playSound,
+        unlockAudio
+    } = useGameAudio();
+    
+    async function handleLogout() {
+        await logout();
+        
+        navigate("/login", { replace: true });
+    }
     
     const [loading, setLoading] = useState(true);
     const [levelsData, setLevelsData] = useState<LevelsProps[]>([]);
+    const [sessionId, setSessionId] = useState<number>(0);
 
-    const { difficulty, gameModeId } = location.state;
+    const { difficulty, gameModesId, name } = location.state;
 
-    async function getLevels() {
+    // START: Check game sessions
+    async function CheckGameSessions(): Promise<number | null> {
         try {
+            setLoading(true);
+
+            const params = new URLSearchParams({
+                userId: String(user?.id),
+                gameModesId: gameModesId,
+            });
+
             const response = await fetch(
-                `http://localhost:3000/api/levels/fetch/${gameModeId}`
+                `${import.meta.env.VITE_API_URL}/sessions/check?${params}`
             );
 
             if(!response.ok) {
                 Notification(
-                    "Gagal mengambil data.",
+                    "Gagal menggecek sesi",
                     "error",
                     false
                 );
+
+                return null;
             }
 
-            const data: LevelsProps[] = await response.json();
+            const data = await response.json();
 
-            setLevelsData(data);
+            if (!data.length || !data[0].id) {
+                Notification(
+                    "Sesi game tidak ditemukan.",
+                    "error",
+                    false
+                );
+
+                return null;
+            }
+
+            return Number(data[0].id);
         } catch (error: any) {
             Notification(
                 error.message,
                 "error",
                 false
-            )
+            );
+
+            return null;
+        } finally {
+            setLoading(false);
+        }
+    }
+    // END: Check game sessions
+
+    // START: Fetch data
+    async function getLevels(currentSessionId: number): Promise<LevelsProps[] | null> {
+        try {
+            const params = new URLSearchParams({
+                gameModesId: String(gameModesId),
+                gameSessionId: String(currentSessionId)
+            });
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/levels/fetch?${params}`
+            );
+
+            if(!response.ok) {
+                Notification(
+                    "Gagal mengambil data level.",
+                    "error",
+                    false
+                );
+
+                return null;
+            }
+
+            return await response.json();
+        } catch (error: any) {
+            Notification(
+                error.message,
+                "error",
+                false
+            );
+
+            return null
         } finally {
             setLoading(false);
         }
     }
 
+    async function Initialize() {
+        try {
+            setLoading(true);
+
+            const currentSessionId = await CheckGameSessions();
+
+            // Hentikan proses jika session gagal ditemukan
+            if (currentSessionId === null) return;
+
+            setSessionId(currentSessionId);
+
+            const data = await getLevels(currentSessionId);
+
+            if(data === null) return;
+
+            setLevelsData(data);
+
+        } catch (error: unknown) {
+            Notification(
+                error instanceof Error
+                    ? error.message
+                    : "Terjadi kesalahan.",
+                "error",
+                false
+            );
+        } finally {
+            setLoading(false);
+        }
+    }
+    // END: Fetch data
+
     useEffect(() => {
-        getLevels();
+        unlockAudio();
+        Initialize();
     }, []);
 
     if(loading) {
@@ -63,6 +169,36 @@ export default function LevelPage() {
 
     return (
         <div className="screen">
+            <div className="absolute top-4 left-4 z-20 flex items-center gap-3">
+                <div className="flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md">
+                    <span className="text-xl">👤</span>
+                    <div>
+                        <span id="user-display-name" className="font-extrabold text-indigo-900 block leading-tight">{user?.username}</span>
+                        <span className="text-[10px] text-amber-600 font-black uppercase tracking-wider">🏆 Highscore: <span id="user-high-score">0</span></span>
+                    </div>
+                    <button
+                        onClick={() => {
+                            handleLogout;
+                            playSound("click");
+                        }}
+                        title="Keluar Akun"
+                        className="ml-2 text-xs bg-red-100 text-red-600 px-2 py-1 rounded-md hover:bg-red-200 font-extrabold transition-all cursor-pointer"
+                    >
+                        Logout
+                    </button>
+                </div>
+                
+                <button
+                    onClick={() => {
+                        navigate("/leaderboard");
+                        playSound("click");
+                    }}
+                    className="btn-3d bg-yellow-400 hover:bg-yellow-500 text-yellow-950 font-black p-3 rounded-full shadow-md text-xl border-2 border-white flex items-center justify-center cursor-pointer"
+                >
+                    🏆
+                </button>
+            </div>
+
             <h1
                 className="glitch mb-8 text-center text-4xl capitalize"
                 data-text={`Level ${difficulty}`}
@@ -74,8 +210,23 @@ export default function LevelPage() {
                 <div className="grid grid-cols-5 gap-3 w-full md:w-2/3">
                     {levelsData.map((item: any) => (
                         <button
-                            key={item.level}
-                            className="btn-interactive btn-3d bg-white text-indigo-800 font-extrabold text-xl py-4 rounded-2xl shadow-[0_4px_0_#cbd5e1] hover:bg-indigo-50 border border-indigo-100"
+                            key={item.id}
+                            onClick={
+                                () => {
+                                    navigate("/bahasa-indonesia/main", {
+                                        state: {
+                                            gameModesId,
+                                            name,
+                                            level: item.id,
+                                            session: sessionId
+                                        }
+                                    });
+                                    playSound("click");
+                                }}
+                            className={
+                                `${!item.hasUserAnswer ? "bg-white text-indigo-800 hover:bg-indigo-50 border border-indigo-100" : "bg-green-500 text-white hover:bg-green-600"}
+                                btn-interactive btn-3d font-extrabold text-xl py-4 rounded-2xl shadow-[0_4px_0_#cbd5e1] cursor-pointer`
+                            }
                         >
                             {item.level}
                         </button>
@@ -93,8 +244,11 @@ export default function LevelPage() {
             </div>
 
             <button
-                onClick={() => navigate(-1)}
-                className="mt-8 bg-white/90 text-indigo-800 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-white text-lg transition-all backdrop-blur-sm relative z-10"
+                onClick={() => {
+                    navigate(-1);
+                    playSound('click');
+                }}
+                className="mt-8 bg-white/90 text-indigo-800 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-white text-lg transition-all backdrop-blur-sm relative z-10 cursor-pointer"
             >
                 ⬅️ Kembali ke Menu Utama
             </button>
