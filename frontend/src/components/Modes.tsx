@@ -123,7 +123,7 @@ export default function ModesPage() {
                             <span className="text-xl">👤</span>
                             <div>
                                 <span id="user-display-name" className="font-extrabold text-indigo-900 text-lg block leading-tight">{user?.username}</span>
-                                <span className="text-[12px] text-amber-600 font-black uppercase tracking-wider">🏆 Highscore: <span id="user-high-score">{score}</span></span>
+                                <span className="text-[12px] text-amber-600 font-black uppercase tracking-wider">🏆 Score Tertinggi: <span id="user-high-score">{score}</span></span>
                             </div>
                         </div>
                         <button
@@ -134,7 +134,7 @@ export default function ModesPage() {
                             title="Keluar Akun"
                             className=" ml-2 text-md bg-red-100 text-red-600 px-2 py-1 rounded-md hover:bg-red-200 font-extrabold transition-all cursor-pointer"
                         >
-                            Logout
+                            Keluar
                         </button>
                     </div>
                     
@@ -160,10 +160,10 @@ export default function ModesPage() {
                                     playSound("click");
                                 }}
                                 className={`
-                                    ${item.name === "easy" ? "bg-green-500 hover:bg-green-600" : ""}
-                                    ${item.name === "medium" ? "bg-yellow-500 hover:bg-yellow-600" : ""}
-                                    ${item.name === "hard" ? "bg-orange-500 hover:bg-orange-600" : ""}
-                                    btn-interactive btn-3d text-white font-bold py-5 rounded-2xl text-2xl shadow-[0_6px_0_#991b1b] flex items-center justify-center gap-2 cursor-pointer
+                                    ${item.name === "easy" ? "bg-green-500 hover:bg-green-600 shadow-[0_6px_0_#15803d]" : ""}
+                                    ${item.name === "medium" ? "bg-yellow-500 hover:bg-yellow-600 shadow-[0_6px_0_#a16207]" : ""}
+                                    ${item.name === "hard" ? "bg-orange-500 hover:bg-orange-600 shadow-[0_6px_0_#c2410c]" : ""}
+                                    btn-interactive btn-3d text-white font-bold py-5 rounded-2xl text-2xl flex items-center justify-center gap-2 cursor-pointer
                                 `}
                             >
                                 {item.name.charAt(0).toUpperCase() + item.name.slice(1)}

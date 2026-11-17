@@ -306,8 +306,8 @@ export default function QuestionPage() {
                                     }
                                 }
                                 className={`
-                                    ${index === 0 ? "bg-[#f87171]" : index === 1 ? "bg-[#4ade80]" : index === 2 ? "bg-[#60a5fa]" : "bg-[#fbbf24]"}
-                                    btn-interactive btn-3d text-white font-black py-4 rounded-2xl text-2xl shadow-[0_5px_0_#b91c1c] cursor-pointer
+                                    ${index === 0 ? "bg-[#f87171] shadow-[0_5px_0_#b91c1c]" : index === 1 ? "bg-[#4ade80] shadow-[0_5px_0_#15803d]" : index === 2 ? "bg-[#60a5fa] shadow-[0_6px_0_#1d4ed8]" : "bg-[#fbbf24] shadow-[0_5px_0_#b45309]"}
+                                    btn-interactive btn-3d text-white font-black py-4 rounded-2xl text-2xl cursor-pointer
                                 `}
                             >
                                 {item.option}

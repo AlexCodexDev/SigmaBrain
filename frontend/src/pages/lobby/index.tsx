@@ -67,7 +67,7 @@ export default function LobbyPage() {
                         <span className="text-xl">👤</span>
                         <div>
                             <span id="user-display-name" className="font-extrabold text-indigo-900 text-lg block leading-tight">{user?.username}</span>
-                            <span className="text-[12px] text-amber-600 font-black uppercase tracking-wider">🏆 Highscore: <span id="user-high-score">{score}</span></span>
+                            <span className="text-[12px] text-amber-600 font-black uppercase tracking-wider">🏆 Score Tertinggi: <span id="user-high-score">{score}</span></span>
                         </div>
                     </div>
                     <button
@@ -78,7 +78,7 @@ export default function LobbyPage() {
                         title="Keluar Akun"
                         className=" ml-2 text-md bg-red-100 text-red-600 px-2 py-1 rounded-md hover:bg-red-200 font-extrabold transition-all cursor-pointer"
                     >
-                        Logout
+                        Keluar
                     </button>
                 </div>
                 
