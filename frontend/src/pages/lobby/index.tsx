@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useGameAudio } from "../../hooks/useGameAudio";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Notification } from "../../components/Notification";
 
 export default function LobbyPage() {
     const { user, logout } = useAuth();
@@ -11,25 +12,63 @@ export default function LobbyPage() {
         playSound,
         unlockAudio
     } = useGameAudio();
+    const [score, setScore] = useState<number>(0);
 
+    // START: Logout
     async function handleLogout() {
         await logout();
         
         navigate("/login", { replace: true });
     }
+    // END: Logout
+
+    // START: Fetch score
+    async function FetchScoreUser() {
+        try {
+            const params = new URLSearchParams({
+                user: String(user?.id)
+            });
+
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/sessions/score?${params}`
+            );
+
+            if(!response.ok) {
+                Notification(
+                    "Gagal mengambil score.",
+                    "error",
+                    false
+                );
+            }
+
+            const data = await response.json();
+
+            setScore(Number(data[0].score));
+        } catch (error: any) {
+            Notification(
+                error.message,
+                "error",
+                false
+            );
+        }
+    }
+    // END: Fetch score
 
     useEffect(() => {
+        FetchScoreUser();
         unlockAudio();
     }, []);
 
     return (
         <div className="screen">
             <div className="absolute top-4 left-4 z-20 flex items-center gap-3">
-                <div className="flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md">
-                    <span className="text-xl">👤</span>
-                    <div>
-                        <span id="user-display-name" className="font-extrabold text-indigo-900 block leading-tight">{user?.username}</span>
-                        <span className="text-[10px] text-amber-600 font-black uppercase tracking-wider">🏆 Highscore: <span id="user-high-score">0</span></span>
+                <div className="w-sm flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md">
+                    <div className="flex items-center gap-3">
+                        <span className="text-xl">👤</span>
+                        <div>
+                            <span id="user-display-name" className="font-extrabold text-indigo-900 text-lg block leading-tight">{user?.username}</span>
+                            <span className="text-[12px] text-amber-600 font-black uppercase tracking-wider">🏆 Highscore: <span id="user-high-score">{score}</span></span>
+                        </div>
                     </div>
                     <button
                         onClick={() => {
@@ -37,7 +76,7 @@ export default function LobbyPage() {
                             playSound("click");
                         }}
                         title="Keluar Akun"
-                        className="ml-2 text-xs bg-red-100 text-red-600 px-2 py-1 rounded-md hover:bg-red-200 font-extrabold transition-all cursor-pointer"
+                        className=" ml-2 text-md bg-red-100 text-red-600 px-2 py-1 rounded-md hover:bg-red-200 font-extrabold transition-all cursor-pointer"
                     >
                         Logout
                     </button>

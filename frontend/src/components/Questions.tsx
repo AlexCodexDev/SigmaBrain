@@ -169,6 +169,8 @@ export default function QuestionPage() {
                 }
             );
 
+            console.log(submitResponse);
+
             if(!submitResponse.ok) {
                 Notification(
                     "Gagal menyimpan jawaban.",
@@ -271,7 +273,7 @@ export default function QuestionPage() {
             <div className="w-full max-w-xl flex justify-between items-center px-6 py-4 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl absolute top-4 left-1/2 transform -translate-x-1/2 border border-indigo-100">
                 <h1 id="game-header-title" className="text-lg md:text-xl font-black text-indigo-700 truncate">Level {currentQuestion.levelNo}</h1>
                 <div className="flex items-center gap-4">
-                    <h2 className="text-xl font-extrabold text-amber-500">⭐ <span id="scoreText">0</span></h2>
+                    <h2 className="text-xl font-extrabold text-amber-500">⭐ <span id="scoreText">{currentQuestion.point}</span></h2>
                     <button onClick={() => {
                         navigate(-1);
                         playSound("click");

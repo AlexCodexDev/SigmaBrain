@@ -13,23 +13,19 @@ export default function ModesPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const { user, logout } = useAuth();
+    const [score, setScore] = useState<number>(0);
 
     const {
         playSound,
         unlockAudio
     } = useGameAudio();
-        
-    async function handleLogout() {
-        await logout();
-        
-        navigate("/login", { replace: true });
-    }
 
     const pathname = location.pathname.split("/")[1];
 
     const [loading, setLoading] = useState(true);
     const [gameModesData, setGameModesData] = useState<GameModesProps[]>([]);
 
+    // START: Fetch
     async function getGameModes() {
         try {
             const response = await fetch(
@@ -57,8 +53,50 @@ export default function ModesPage() {
             setLoading(false);
         }
     }
+    // END: Fetch
+
+    // START: Logout
+    async function handleLogout() {
+        await logout();
+        
+        navigate("/login", { replace: true });
+    }
+    // END: Logout
+
+    // START: Fetch score
+    async function FetchScoreUser() {
+        try {
+            const params = new URLSearchParams({
+                user: String(user?.id)
+            });
+
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/sessions/score?${params}`
+            );
+
+            if(!response.ok) {
+                Notification(
+                    "Gagal mengambil score.",
+                    "error",
+                    false
+                );
+            }
+
+            const data = await response.json();
+
+            setScore(Number(data[0].score));
+        } catch (error: any) {
+            Notification(
+                error.message,
+                "error",
+                false
+            );
+        }
+    }
+    // END: Fetch score
 
     useEffect(() => {
+        FetchScoreUser();
         unlockAudio();
         getGameModes();
     }, []);
@@ -80,11 +118,13 @@ export default function ModesPage() {
         <>
             <div className="screen">
                 <div className="absolute top-4 left-4 z-20 flex items-center gap-3">
-                    <div className="flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md">
-                        <span className="text-xl">👤</span>
-                        <div>
-                            <span id="user-display-name" className="font-extrabold text-indigo-900 block leading-tight">{user?.username}</span>
-                            <span className="text-[10px] text-amber-600 font-black uppercase tracking-wider">🏆 Highscore: <span id="user-high-score">0</span></span>
+                    <div className="w-sm flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md">
+                        <div className="flex items-center gap-3">
+                            <span className="text-xl">👤</span>
+                            <div>
+                                <span id="user-display-name" className="font-extrabold text-indigo-900 text-lg block leading-tight">{user?.username}</span>
+                                <span className="text-[12px] text-amber-600 font-black uppercase tracking-wider">🏆 Highscore: <span id="user-high-score">{score}</span></span>
+                            </div>
                         </div>
                         <button
                             onClick={() => {
@@ -92,13 +132,19 @@ export default function ModesPage() {
                                 playSound("click");
                             }}
                             title="Keluar Akun"
-                            className="ml-2 text-xs bg-red-100 text-red-600 px-2 py-1 rounded-md hover:bg-red-200 font-extrabold transition-all cursor-pointer"
+                            className=" ml-2 text-md bg-red-100 text-red-600 px-2 py-1 rounded-md hover:bg-red-200 font-extrabold transition-all cursor-pointer"
                         >
                             Logout
                         </button>
                     </div>
                     
-                    <button className="btn-3d bg-yellow-400 hover:bg-yellow-500 text-yellow-950 font-black p-3 rounded-full shadow-md text-xl border-2 border-white flex items-center justify-center">
+                    <button
+                        onClick={() => {
+                            navigate("/leaderboard");
+                            playSound("click");
+                        }}
+                        className="btn-3d bg-yellow-400 hover:bg-yellow-500 text-yellow-950 font-black p-3 rounded-full shadow-md text-xl border-2 border-white flex items-center justify-center cursor-pointer"
+                    >
                         🏆
                     </button>
                 </div>

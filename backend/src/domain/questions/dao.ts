@@ -1,6 +1,6 @@
 import { and, asc, eq, gte, lte } from "drizzle-orm";
 import { db } from "../../config/database.js";
-import { answerOptions, levels, questions } from "../../db/schema.js";
+import { answerOptions, gameSessions, levels, questions } from "../../db/schema.js";
 
 export type QuestionType = NonNullable<
     typeof questions.$inferInsert.questionType
@@ -42,14 +42,16 @@ export async function GetDataDAO(
 
             answerOptionsId: answerOptions.id,
             option: answerOptions.option,
-            isCorrect: answerOptions.isCorrect
+            isCorrect: answerOptions.isCorrect,
+
+
         })
         .from(questions)
         .innerJoin(
             answerOptions,
             eq(questions.id, answerOptions.questionsId)
-        ).
-        innerJoin(
+        )
+        .innerJoin(
             levels,
             eq(questions.levelId, levels.id)
         )
