@@ -19,6 +19,7 @@ export async function RegisterController(req: Request, res: Response) {
         const result = await Services.RegisterServices(data);
         return res.status(201).json(result);
     } catch (error: any) {
+        console.log(error);
         return res.status(500).json(error.message);
     }
 }
