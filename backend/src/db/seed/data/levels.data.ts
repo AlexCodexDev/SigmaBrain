@@ -2,7 +2,7 @@ const difficulties = [
     { gameModesId: 1, name: "easy" },
     { gameModesId: 2, name: "medium" },
     { gameModesId: 3, name: "hard" },
-    { gameModesId: 4, name: "master" }
+    { gameModesId: 4, name: "nightmare" }
 ];
 
 export const levelData = Array.from(
