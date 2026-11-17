@@ -8,10 +8,11 @@ export type QuestionType = NonNullable<
 export async function GetLevelsServices(
     gameModesId: number,
     gameSessionId: number,
-    questionType: QuestionType
+    questionType: QuestionType,
+    difficulty: string
 ) {
     if(!gameModesId) return ({ message: "Game mode tidak diketahui." });
 
-    const data = await DAO.GetLevelsDAO(gameModesId, gameSessionId, questionType);
+    const data = await DAO.GetLevelsDAO(gameModesId, gameSessionId, questionType, difficulty);
     return data;
 }

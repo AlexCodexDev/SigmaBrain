@@ -7,7 +7,13 @@ import { useGameAudio } from "../hooks/useGameAudio";
 interface LevelsProps {
     id: number;
     level: number;
+
     hasUserAnswer: boolean;
+    isCompleted: boolean;
+    isLocked: boolean;
+     
+    totalQuestions: number;
+    correctQuestions: number;
 }
 
 export default function LevelPage() {
@@ -85,7 +91,8 @@ export default function LevelPage() {
             const params = new URLSearchParams({
                 gameModesId: String(gameModesId),
                 gameSessionId: String(currentSessionId),
-                questionType
+                questionType,
+                difficulty: difficulty.toLowerCase()
             });
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/levels/fetch?${params}`
@@ -243,6 +250,7 @@ export default function LevelPage() {
                     {levelsData.map((item: any) => (
                         <button
                             key={item.id}
+                            disabled={item.locked}
                             onClick={
                                 () => {
                                     navigate("/bahasa-indonesia/main", {
@@ -255,12 +263,30 @@ export default function LevelPage() {
                                     });
                                     playSound("click");
                                 }}
-                            className={
-                                `${!item.hasUserAnswer ? "bg-white text-indigo-800 hover:bg-indigo-50 border border-indigo-100" : "bg-green-500 text-white hover:bg-green-600"}
-                                btn-interactive btn-3d font-extrabold text-xl py-4 rounded-2xl shadow-[0_4px_0_#cbd5e1] cursor-pointer`
-                            }
+                            className={`
+                                ${
+                                    item.isLocked
+                                        ? "bg-gray-400 text-gray-600 opacity-60 cursor-not-allowed"
+                                        : item.isCompleted
+                                            ? "bg-green-500 text-white hover:bg-green-600"
+                                            : "bg-white text-indigo-800 hover:bg-indigo-50 border border-indigo-100"
+                                }
+                                btn-interactive btn-3d font-extrabold text-xl py-4 rounded-2xl
+                                shadow-[0_4px_0_#cbd5e1]
+                            `}
                         >
-                            {item.level}
+                            {item.isLocked
+                                ? <div className="flex flex-col">
+                                    <span>🔒</span>
+                                    <span>Level {item.level}</span>
+                                </div>
+                                : item.isCompleted
+                                    ? <div className="flex flex-col">
+                                            <span>✓</span>
+                                            <span>Level {item.level}</span>
+                                        </div>
+                                    : item.level
+                            }
                         </button>
                     ))}
                 </div>

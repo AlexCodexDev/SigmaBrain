@@ -8,12 +8,13 @@ export type QuestionType = NonNullable<
 
 export async function GetLevelsController(req: Request, res: Response) {
     try {
-        const { gameModesId, gameSessionId, questionType } = req.query;
+        const { gameModesId, gameSessionId, questionType, difficulty } = req.query;
 
         const result = await Services.GetLevelsServices(
             Number(gameModesId),
             Number(gameSessionId),
-            questionType as QuestionType
+            questionType as QuestionType,
+            String(difficulty)
         );
 
         return res.status(200).json(result);
