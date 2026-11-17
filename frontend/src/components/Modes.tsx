@@ -29,7 +29,7 @@ export default function ModesPage() {
     async function getGameModes() {
         try {
             const response = await fetch(
-                "http://localhost:3000/api/game-modes/fetch",
+                `${import.meta.env.VITE_API_URL}/game-modes/fetch`,
             );
 
             if(!response.ok) {
@@ -116,7 +116,7 @@ export default function ModesPage() {
 
     return (
         <>
-            <div className="screen">
+            <div className="screen gap-8">
                 <div className="absolute top-4 left-4 z-20 flex items-center gap-3">
                     <div className="w-sm flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md">
                         <div className="flex items-center gap-3">
@@ -148,38 +148,54 @@ export default function ModesPage() {
                         🏆
                     </button>
                 </div>
+                <h1 className="glitch text-center text-4xl" data-text="Pilih Kesulitan">Pilih Kesulitan</h1>
 
-                <h1 className="glitch mb-10 text-center text-4xl" data-text="Pilih Kesulitan">Pilih Kesulitan</h1>
-                
-                <div className="flex flex-col gap-5 w-full max-w-sm relative z-10">
-                    {gameModesData.map((item: any, index: number) => (
+                <div className="flex justify-center items-center gap-7 w-full">
+                    <div className="flex flex-col gap-5 w-full max-w-sm relative z-10">
+                        {gameModesData.map((item: any, index: number) => (
+                            <button
+                                key={index}
+                                onClick={() => {
+                                    navigate(`/${pathname}/tingkat`, { state: { difficulty: item.name, gameModesId: item.id, name: pathname } });
+                                    playSound("click");
+                                }}
+                                className={`
+                                    ${item.name === "easy" ? "bg-green-500 hover:bg-green-600" : ""}
+                                    ${item.name === "medium" ? "bg-yellow-500 hover:bg-yellow-600" : ""}
+                                    ${item.name === "hard" ? "bg-orange-500 hover:bg-orange-600" : ""}
+                                    btn-interactive btn-3d text-white font-bold py-5 rounded-2xl text-2xl shadow-[0_6px_0_#991b1b] flex items-center justify-center gap-2 cursor-pointer
+                                `}
+                            >
+                                {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="w-full md:w-sm flex flex-col items-center justify-center bg-gray-950/95 p-6 rounded-[2.5rem] border-4 border-red-600 shadow-[0_0_40px_#dc2626] transform transition-all duration-300 hover:scale-105">
+                        <span className="text-5xl animate-bounce mb-2">☠️</span>
+                        <h2 className="text-red-500 font-black text-3xl mb-1 text-center tracking-widest animate-pulse">NIGHTMARE</h2>
+                        <p className="text-gray-400 text-xs text-center mb-6 font-bold uppercase tracking-wider">Mode Hardcore Ekstrem</p>
                         <button
-                            key={index}
                             onClick={() => {
-                                navigate(`/${pathname}/tingkat`, { state: { difficulty: item.name, gameModesId: item.id, name: pathname } });
+                                navigate(`/${pathname}/tingkat`, { state: { difficulty: "nightmare", gameModesId: 5, name: pathname } });
                                 playSound("click");
                             }}
-                            className={`
-                                ${item.name === "easy" ? "bg-green-500 hover:bg-green-600" : ""}
-                                ${item.name === "medium" ? "bg-yellow-500 hover:bg-yellow-600" : ""}
-                                ${item.name === "hard" ? "bg-orange-500 hover:bg-orange-600" : ""}
-                                ${item.name === "nightmare" ? "bg-red-500 hover:bg-red-600" : ""}
-                                btn-interactive btn-3d text-white font-bold py-5 rounded-2xl text-2xl shadow-[0_6px_0_#991b1b] flex items-center justify-center gap-2 cursor-pointer
-                            `}
+                            className="w-full btn-interactive btn-3d bg-red-600 hover:bg-red-500 text-white font-black py-4 rounded-xl text-xl shadow-[0_6px_0_#7f1d1d] tracking-wide cursor-pointer"
                         >
-                            {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+                            MASUK PORTAL 🔥
                         </button>
-                    ))}
-                    <button
-                        onClick={() => {
-                            navigate(-1);
-                            playSound("click");
-                        }}
-                        className="mt-4 text-indigo-800 bg-white/70 py-3 rounded-full font-bold text-lg hover:bg-white backdrop-blur-sm transition-all shadow cursor-pointer"
-                    >
-                        ⬅️ Kembali ke Menu
-                    </button>
+                    </div>
                 </div>
+
+                <button
+                    onClick={() => {
+                        navigate(-1);
+                        playSound("click");
+                    }}
+                    className="w-sm mt-4 text-indigo-800 bg-white/70 py-3 rounded-full font-bold text-lg hover:bg-white backdrop-blur-sm transition-all shadow cursor-pointer"
+                >
+                    ⬅️ Kembali ke Menu
+                </button>
             </div>
         </>
     )

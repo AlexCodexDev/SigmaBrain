@@ -55,7 +55,7 @@ export default function RegisterPage() {
             unlockAudio();
 
             const response = await fetch(
-                "http://localhost:3000/api/auth/register",
+                `${import.meta.env.VITE_API_URL}/auth/register`,
                 {
                     method: "POST",
                     headers: {

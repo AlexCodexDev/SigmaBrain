@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom"
 import { Notification } from "./Notification";
 import { useAuth } from "../context/AuthContext";
@@ -14,6 +14,17 @@ interface LevelsProps {
      
     totalQuestions: number;
     correctQuestions: number;
+}
+
+interface EmberParticle {
+    x: number;
+    y: number;
+    size: number;
+    speedY: number;
+    speedX: number;
+    opacity: number;
+    color: string;
+    wobble: number;
 }
 
 export default function LevelPage() {
@@ -36,8 +47,11 @@ export default function LevelPage() {
     const [loading, setLoading] = useState(true);
     const [levelsData, setLevelsData] = useState<LevelsProps[]>([]);
     const [sessionId, setSessionId] = useState<number>(0);
+    const emberCanvasRef = useRef<HTMLCanvasElement>(null);
+    const lightningFlashRef = useRef<HTMLDivElement>(null);
 
     const { difficulty, gameModesId, name } = location.state;
+    const isNightmare = String(difficulty).toLowerCase() === "nightmare";
     const questionType = name.trim().replace("-", "_");
 
     // START: Check game sessions
@@ -191,6 +205,173 @@ export default function LevelPage() {
         Initialize();
     }, []);
 
+    useEffect(() => {
+        if (!isNightmare) return;
+
+        playSound("nightmare");
+        const canvas = emberCanvasRef.current;
+        const ctx = canvas?.getContext("2d");
+
+        if (!canvas || !ctx) return;
+
+        let animationId = 0;
+        let lightningTimeout: number;
+        let flashTimeout: number;
+
+        let canvasWidth = window.innerWidth;
+        let canvasHeight = window.innerHeight;
+
+        const colors = [
+            "#ff2a00",
+            "#ff7700",
+            "#ffdd00",
+            "#ff0055"
+        ];
+
+        let particles: EmberParticle[] = [];
+
+        // Mengatur ukuran canvas
+        function resizeCanvas() {
+            const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+
+            canvasWidth = window.innerWidth;
+            canvasHeight = window.innerHeight;
+
+            canvas!.width = canvasWidth * pixelRatio;
+            canvas!.height = canvasHeight * pixelRatio;
+
+            canvas!.style.width = `${canvasWidth}px`;
+            canvas!.style.height = `${canvasHeight}px`;
+
+            ctx!.setTransform(
+                pixelRatio,
+                0,
+                0,
+                pixelRatio,
+                0,
+                0
+            );
+        }
+
+        // Membuat partikel bara api
+        function createParticles() {
+            particles = Array.from({ length: 120 }, () => ({
+                x: Math.random() * canvasWidth,
+                y: Math.random() * canvasHeight,
+                size: Math.random() * 4 + 1.5,
+                speedY: Math.random() * 3 + 2,
+                speedX: (Math.random() - 0.5) * 2,
+                opacity: Math.random() * 0.8 + 0.2,
+                color: colors[
+                    Math.floor(Math.random() * colors.length)
+                ],
+                wobble: Math.random() * Math.PI * 2
+            }));
+        }
+
+        // Animasi partikel
+        function renderEmberStorm() {
+            ctx!.clearRect(
+                0,
+                0,
+                canvasWidth,
+                canvasHeight
+            );
+
+            particles.forEach((particle) => {
+                particle.y -= particle.speedY;
+
+                particle.wobble += 0.04;
+
+                particle.x +=
+                    Math.sin(particle.wobble) * 1.5 +
+                    particle.speedX;
+
+                if (particle.y < -10) {
+                    particle.y = canvasHeight + 10;
+                    particle.x = Math.random() * canvasWidth;
+                }
+
+                ctx!.beginPath();
+
+                ctx!.arc(
+                    particle.x,
+                    particle.y,
+                    particle.size,
+                    0,
+                    Math.PI * 2
+                );
+
+                ctx!.fillStyle = particle.color;
+                ctx!.globalAlpha = particle.opacity;
+
+                ctx!.shadowBlur = 12;
+                ctx!.shadowColor = particle.color;
+
+                ctx!.fill();
+            });
+
+            // Reset state canvas
+            ctx!.globalAlpha = 1;
+            ctx!.shadowBlur = 0;
+
+            animationId = requestAnimationFrame(
+                renderEmberStorm
+            );
+        }
+
+        // Efek kilatan petir
+        function scheduleLightning() {
+            const delay = Math.random() * 4000 + 2000;
+
+            lightningTimeout = window.setTimeout(() => {
+                const flash = lightningFlashRef.current;
+
+                if (!flash) return;
+
+                flash.classList.add("flash-active");
+
+                flashTimeout = window.setTimeout(() => {
+                    flash.classList.remove("flash-active");
+                }, 400);
+
+                scheduleLightning();
+
+            }, delay);
+        }
+
+        // Inisialisasi
+        resizeCanvas();
+        createParticles();
+
+        window.addEventListener("resize", resizeCanvas);
+
+        renderEmberStorm();
+        scheduleLightning();
+
+        // Cleanup ketika keluar dari Nightmare
+        return () => {
+            window.removeEventListener("resize", resizeCanvas);
+
+            cancelAnimationFrame(animationId);
+
+            clearTimeout(lightningTimeout);
+            clearTimeout(flashTimeout);
+
+            ctx!.clearRect(
+                0,
+                0,
+                canvasWidth,
+                canvasHeight
+            );
+
+            lightningFlashRef.current?.classList.remove(
+                "flash-active"
+            );
+        };
+
+    }, [isNightmare]);
+
     if(loading) {
         return (
             <div className="screen">
@@ -205,7 +386,23 @@ export default function LevelPage() {
     };
 
     return (
-        <div className="screen">
+        <>
+            {isNightmare && (
+                <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+                    <canvas ref={emberCanvasRef} className="absolute inset-0 w-full h-full" />
+
+                    <div id="fire-overlay" className="absolute inset-0">        
+                        <video loop muted className="w-full h-full object-cover mix-blend-screen opacity-70">
+                            <source src="Media/Video/FireFrame.mp4" type="video/mp4" />
+                        </video>       
+                    </div>
+
+                    <div className="crt-scanlines"></div>
+                    <div ref={lightningFlashRef} id="lightning-flash"></div>
+                    <div className="blood-vignette"></div>
+                </div>
+            )}
+
             <div className="absolute top-4 left-4 z-20 flex items-center gap-3">
                 <div className="w-sm flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md">
                     <div className="flex items-center gap-3">
@@ -238,78 +435,78 @@ export default function LevelPage() {
                 </button>
             </div>
 
-            <h1
-                className="glitch mb-8 text-center text-4xl capitalize"
-                data-text={`Level ${difficulty}`}
+            <div
+                className={`screen ${isNightmare ? "text-white" : ""}`}
+                style={isNightmare ? { background: "transparent" } : undefined}
             >
-                Level {difficulty}
-            </h1>
-            
-            <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full max-w-5xl relative z-10">
-                <div className="grid grid-cols-5 gap-3 w-full md:w-2/3">
-                    {levelsData.map((item: any) => (
-                        <button
-                            key={item.id}
-                            disabled={item.locked}
-                            onClick={
-                                () => {
-                                    navigate("/bahasa-indonesia/main", {
-                                        state: {
-                                            gameModesId,
-                                            name,
-                                            level: item.id,
-                                            session: sessionId
-                                        }
-                                    });
-                                    playSound("click");
-                                }}
-                            className={`
-                                ${
-                                    item.isLocked
-                                        ? "bg-gray-400 text-gray-600 opacity-60 cursor-not-allowed"
-                                        : item.isCompleted
-                                            ? "bg-green-500 text-white hover:bg-green-600"
-                                            : "bg-white text-indigo-800 hover:bg-indigo-50 border border-indigo-100"
-                                }
-                                btn-interactive btn-3d font-extrabold text-xl py-4 rounded-2xl
-                                shadow-[0_4px_0_#cbd5e1]
-                            `}
-                        >
-                            {item.isLocked
-                                ? <div className="flex flex-col">
-                                    <span>🔒</span>
-                                    <span>Level {item.level}</span>
-                                </div>
-                                : item.isCompleted
+                <h1
+                    className={`glitch mb-8 text-center text-4xl capitalize ${isNightmare ? "text-red-500" : ""}`}
+                    data-text={`Level ${difficulty}`}
+                >
+                    Level {difficulty}
+                </h1>
+                
+                <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full max-w-5xl relative z-10">
+                    <div className="grid grid-cols-5 gap-3 w-full md:w-2/3">
+                        {levelsData.map((item: any) => (
+                            <button
+                                key={item.id}
+                                disabled={item.locked}
+                                onClick={
+                                    () => {
+                                        navigate(`/${name}/main`, {
+                                            state: {
+                                                gameModesId,
+                                                name,
+                                                level: item.id,
+                                                session: sessionId
+                                            }
+                                        });
+                                        playSound("click");
+                                    }}
+                                className={`
+                                    ${
+                                        item.isLocked
+                                            ? "bg-gray-500 text-gray-300 opacity-60 cursor-not-allowed"
+                                            : item.isCompleted
+                                                ? isNightmare
+                                                    ? "bg-red-700 text-white hover:bg-red-600"
+                                                    : "bg-green-500 text-white hover:bg-green-600"
+                                                : isNightmare
+                                                    ? "bg-gray-950 text-red-400 border border-red-800 hover:bg-red-950"
+                                                    : "bg-white text-indigo-800 hover:bg-indigo-50 border border-indigo-100"
+                                    }
+                                    btn-interactive btn-3d font-extrabold text-xl py-4 rounded-2xl
+                                    shadow-[0_4px_0_#cbd5e1]
+                                `}
+                            >
+                                {item.isLocked
                                     ? <div className="flex flex-col">
-                                            <span>✓</span>
-                                            <span>Level {item.level}</span>
-                                        </div>
-                                    : item.level
-                            }
-                        </button>
-                    ))}
+                                        <span>🔒</span>
+                                        <span>Level {item.level}</span>
+                                    </div>
+                                    : item.isCompleted
+                                        ? <div className="flex flex-col">
+                                                <span>✓</span>
+                                                <span>Level {item.level}</span>
+                                            </div>
+                                        : item.level
+                                }
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
-                <div id="nightmare-portal" className="w-full md:w-1/3 flex flex-col items-center justify-center bg-gray-950/95 p-6 rounded-[2.5rem] border-4 border-red-600 shadow-[0_0_40px_#dc2626] transform transition-all duration-300 hover:scale-105">
-                    <span className="text-5xl animate-bounce mb-2">☠️</span>
-                    <h2 className="text-red-500 font-black text-3xl mb-1 text-center tracking-widest animate-pulse">NIGHTMARE</h2>
-                    <p className="text-gray-400 text-xs text-center mb-6 font-bold uppercase tracking-wider">Mode Hardcore Ekstrem</p>
-                    <button className="w-full btn-interactive btn-3d bg-red-600 hover:bg-red-500 text-white font-black py-4 rounded-xl text-xl shadow-[0_6px_0_#7f1d1d] tracking-wide">
-                        MASUK PORTAL 🔥
-                    </button>
-                </div>
+                <button
+                    onClick={() => {
+                        navigate(-1);
+                        playSound('click');
+                    }}
+                    className="mt-8 bg-white/90 text-indigo-800 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-white text-lg transition-all backdrop-blur-sm relative z-10 cursor-pointer"
+                >
+                    ⬅️ Kembali ke Menu Utama
+                </button>
             </div>
-
-            <button
-                onClick={() => {
-                    navigate(-1);
-                    playSound('click');
-                }}
-                className="mt-8 bg-white/90 text-indigo-800 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-white text-lg transition-all backdrop-blur-sm relative z-10 cursor-pointer"
-            >
-                ⬅️ Kembali ke Menu Utama
-            </button>
-        </div>
+        </>
     )
 }

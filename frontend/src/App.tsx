@@ -92,6 +92,10 @@ export default function App() {
             {
               path: "tingkat",
               element: <LevelPage />
+            },
+            {
+              path: "main",
+              element: <QuestionPage />
             }
           ]
         },
@@ -110,6 +114,10 @@ export default function App() {
             {
               path: "tingkat",
               element: <LevelPage />
+            },
+            {
+              path: "main",
+              element: <QuestionPage />
             }
           ]
         },
