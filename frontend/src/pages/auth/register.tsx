@@ -107,7 +107,7 @@ export default function RegisterPage() {
     // END: Handle Form
 
     return (
-        <div className="screen">
+        <div className="screen justify-center">
             <div className="w-full max-w-xl bg-white/90 backdrop-blur-md p-8 rounded-[2.5rem] shadow-2xl border-4 border-indigo-100 flex flex-col items-center relative z-10">
                 <div className="bg-indigo-50 rounded-full p-3 mb-2 border-4 border-indigo-200 shadow-inner">
                     <img src="https://api.dicebear.com/7.x/bottts/svg?seed=LoginBot&backgroundColor=transparent" alt="Avatar" className="w-20 h-20 bounce-anim" />

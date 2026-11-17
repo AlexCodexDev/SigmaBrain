@@ -173,8 +173,6 @@ export default function QuestionPage() {
                 }
             );
 
-            console.log(submitResponse);
-
             if(!submitResponse.ok) {
                 Notification(
                     "Gagal menyimpan jawaban.",
@@ -185,12 +183,6 @@ export default function QuestionPage() {
 
             if(!isCorrect) {
                 playSound("wrong");
-
-                Notification(
-                    "Jawaban salah!",
-                    "warning",
-                    false
-                );
             } else {
                 playSound("correct");
                 setIsWin(true);
@@ -226,7 +218,7 @@ export default function QuestionPage() {
 
     if(isFinished) {
         return (
-             <div className="screen">
+             <div className="screen justify-center">
                 <div className="text-center animate-fade-in">
                     <h1 className="text-4xl font-black text-white">
                         🏆 PERMAINAN SELESAI!
@@ -273,22 +265,23 @@ export default function QuestionPage() {
     }
 
     return (
-        <div id="screen-gameplay" className="screen relative pb-16 justify-start pt-24 z-10">
-            <div className="w-full max-w-xl flex justify-between items-center px-6 py-4 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl absolute top-4 left-1/2 transform -translate-x-1/2 border border-indigo-100">
-                <h1 id="game-header-title" className="text-lg md:text-xl font-black text-indigo-700 truncate">Level {currentQuestion.levelNo}</h1>
-                <div className="flex items-center gap-4">
-                    <h2 className="text-xl font-extrabold text-amber-500">⭐ <span id="scoreText">{currentQuestion.point}</span></h2>
-                    <button onClick={() => {
-                        navigate(-1);
-                        playSound("click");
-                    }} className="text-xs font-bold text-gray-500 hover:text-red-500 bg-gray-100 px-3 py-1.5 rounded-lg border cursor-pointer">Keluar</button>
+        <div className="screen relative z-10 w-full min-h-dvh overflow-y-auto overflow-x-hidden justify-start items-center px-4 pt-24 pb-10 md:justify-center">
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-xl">
+                <div className="w-full max-w-xl flex justify-between items-center px-6 py-4 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl absolute top-4 left-1/2 transform -translate-x-1/2 border border-indigo-100">
+                    <h1 id="game-header-title" className="text-xl font-black text-indigo-700 truncate">Level {currentQuestion.levelNo}</h1>
+                    <div className="flex items-center gap-4">
+                        <h2 className="text-xl font-extrabold text-amber-500">⭐ <span id="scoreText">{currentQuestion.point}</span></h2>
+                        <button onClick={() => {
+                            navigate(-1);
+                            playSound("click");
+                        }} className="text-sm font-bold text-gray-500 hover:text-red-500 bg-gray-100 px-3 py-1.5 rounded-lg border cursor-pointer md:text-xs">Keluar</button>
+                    </div>
                 </div>
             </div>
             {!isWin ? (
-                <div id="gameArena" className="flex flex-col items-center w-full max-w-lg bg-white/95 backdrop-blur-sm p-6 md:p-8 rounded-[2.5rem] shadow-2xl border-4 border-indigo-50 mt-6 transition-all duration-300">
-                    <div className="bg-indigo-50 rounded-full p-4 mb-4 relative border-4 border-indigo-200 shadow-inner group cursor-pointer">
+                <div id="gameArena" className="flex flex-col items-center w-full max-w-4xl bg-white/95 backdrop-blur-sm p-6 md:p-8 rounded-[2.5rem] shadow-2xl border-4 border-indigo-50 mt-6 transition-all duration-300">
+                    <div className="bg-indigo-50 rounded-full p-4 mb-4 relative border-4 border-indigo-200 shadow-inner">
                         <img id="mascot" src="https://api.dicebear.com/7.x/bottts/svg?seed=EduBot&backgroundColor=transparent" alt="Maskot" className="w-24 h-24 bounce-anim transition-all duration-300" />
-                        <span className="absolute -top-2 -right-2 bg-indigo-600 text-white text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">Kilik aku!</span>
                     </div>
 
                     <div className="bg-indigo-100/80 p-5 rounded-2xl mb-6 relative w-full text-center border-2 border-indigo-300 text-2xl font-extrabold text-indigo-950 shadow-sm">
@@ -296,7 +289,7 @@ export default function QuestionPage() {
                         <div className="absolute w-4 h-4 bg-indigo-100/80 border-t-2 border-l-2 border-indigo-300 transform rotate-45 -top-2.5 left-1/2 -ml-2"></div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 w-full">
+                    <div className="grid grid-cols-1 gap-4 w-full md:grid-cols-2">
                         {currentQuestion.options.map((item: any, index: number) => (
                             <button
                                 key={item.id}

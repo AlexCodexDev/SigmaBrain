@@ -403,8 +403,8 @@ export default function LevelPage() {
                 </div>
             )}
 
-            <div className="absolute top-4 left-4 z-20 flex items-center gap-3">
-                <div className="w-sm flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md">
+            <div className="absolute top-4 left-4 z-50 flex items-center gap-3">
+                <div className="w-xs flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md md:w-sm">
                     <div className="flex items-center gap-3">
                         <span className="text-xl">👤</span>
                         <div>
@@ -436,7 +436,7 @@ export default function LevelPage() {
             </div>
 
             <div
-                className={`screen ${isNightmare ? "text-white" : ""}`}
+                className={`screen justify-start md:justify-center ${isNightmare ? "text-white" : ""}`}
                 style={isNightmare ? { background: "transparent" } : undefined}
             >
                 <h1
@@ -446,8 +446,8 @@ export default function LevelPage() {
                     Level {difficulty}
                 </h1>
                 
-                <div className="flex flex-col gap-8 items-center justify-center w-full max-w-5xl h-full relative z-10 md:flex-row">
-                    <div className="grid grid-cols-2 gap-3 w-full h-full overflow-y-auto md:w-2/3 md:grid-cols-5 md:overflow-y-hidden">
+                <div className="flex flex-col gap-8 items-center justify-center w-full max-w-5xl relative z-10 md:flex-row">
+                    <div className="grid grid-cols-2 gap-3 w-full md:w-2/3 md:grid-cols-5">
                         {levelsData.map((item: any) => (
                             <button
                                 key={item.id}

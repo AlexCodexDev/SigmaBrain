@@ -51,12 +51,12 @@ export default function LeaderBoardPage() {
     }, []);
 
     return (
-        <div id="screen-leaderboard" className="screen">
-            <div className="w-full max-w-4xl bg-white/95 backdrop-blur-md p-6 md:p-8 rounded-[2.5rem] shadow-2xl border-4 border-indigo-100 flex flex-col items-center relative z-10">
+        <div className="screen">
+            <div className="w-full max-w-2xl h-screen bg-white/95 backdrop-blur-md p-6 md:p-8 rounded-[2.5rem] shadow-2xl border-4 border-indigo-100 flex flex-col items-center relative z-10">
                 <h1 className="glitch mb-2 text-center text-4xl" data-text="Papan Peringkat">Papan Peringkat</h1>
                 <p className="text-indigo-700 text-md font-bold mb-6 uppercase tracking-wider">🏆 Peringkat Pemain Teratas</p>
 
-                <div className="w-full overflow-hidden rounded-2xl border-2 border-indigo-100 shadow-inner mb-6">
+                <div className="w-full max-h-full overflow-y-auto rounded-2xl border-2 border-indigo-100 shadow-inner mb-6">
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-indigo-600 text-white text-sm font-extrabold uppercase">
@@ -67,7 +67,7 @@ export default function LeaderBoardPage() {
                         </thead>
                         <tbody className="divide-y divide-indigo-50 font-bold text-indigo-950 text-md bg-white">
                             {ranking?.map((item: any, index: number) => (
-                                <tr>
+                                <tr key={index} className="h-10">
                                     <td className="text-center">{index + 1}</td>
                                     <td className="px-3">{item.username}</td>
                                     <td className="text-end px-3">{item.score}</td>

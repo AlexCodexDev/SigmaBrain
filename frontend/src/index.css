@@ -180,16 +180,16 @@ body.nightmare-mode input::placeholder {
 =================================================== */
 .screen { 
     display: flex;
-    height: 100dvh; 
-    min-height: 0; 
+    height: 100dvh;
     width: 100%; 
     flex-direction: column; 
     align-items: center; 
-    justify-content: center; 
-    padding: 1.5rem;
+    /* justify-content: center;  */
+    padding: 7rem 1.5rem 2rem;
     position: relative;
     z-index: 10;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     box-sizing: border-box;
 }
 

@@ -60,7 +60,7 @@ export default function LobbyPage() {
     }, []);
 
     return (
-        <div className="screen">
+        <div className="screen justify-center">
             <div className="absolute top-4 left-4 z-20 flex items-center gap-3">
                 <div className="w-sm flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md">
                     <div className="flex items-center gap-3">
