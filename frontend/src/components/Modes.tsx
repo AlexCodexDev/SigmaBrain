@@ -128,7 +128,7 @@ export default function ModesPage() {
                         </div>
                         <button
                             onClick={() => {
-                                handleLogout;
+                                handleLogout();
                                 playSound("click");
                             }}
                             title="Keluar Akun"

@@ -72,7 +72,7 @@ export default function LobbyPage() {
                     </div>
                     <button
                         onClick={() => {
-                            handleLogout;
+                            handleLogout();
                             playSound("click");
                         }}
                         title="Keluar Akun"

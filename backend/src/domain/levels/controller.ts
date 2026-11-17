@@ -1,13 +1,19 @@
 import { Request, Response } from "express";
 import * as Services from "./services.js";
+import { questions } from "../../db/schema.js";
+
+export type QuestionType = NonNullable<
+    typeof questions.$inferInsert.questionType
+>;
 
 export async function GetLevelsController(req: Request, res: Response) {
     try {
-        const { gameModesId, gameSessionId } = req.query;
+        const { gameModesId, gameSessionId, questionType } = req.query;
 
         const result = await Services.GetLevelsServices(
             Number(gameModesId),
-            Number(gameSessionId)
+            Number(gameSessionId),
+            questionType as QuestionType
         );
 
         return res.status(200).json(result);

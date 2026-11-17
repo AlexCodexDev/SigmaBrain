@@ -36,7 +36,7 @@ export async function GetDataDAO(
             answer: questions.answer,
             point: questions.point,
 
-            levelid: levels.id,
+            levelId: levels.id,
             levelNo: levels.level,
             levelName: levels.name,
 

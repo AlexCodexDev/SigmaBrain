@@ -73,7 +73,7 @@ export default function BahasaMenuPage() {
                         </div>
                         <button
                             onClick={() => {
-                                handleLogout;
+                                handleLogout();
                                 playSound("click");
                             }}
                             title="Keluar Akun"

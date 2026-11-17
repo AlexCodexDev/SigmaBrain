@@ -8,6 +8,7 @@ interface QuestionRow {
     questionText: string;
     point: number;
     option: string;
+    levelId: number;
     levelName: string;
     levelNo: number;
     answerOptionsId: number;
@@ -17,6 +18,7 @@ interface Question {
     id: number;
     questionText: string;
     point: number;
+    levelId: number;
     levelName: string;
     levelNo: number;
     options: {
@@ -47,7 +49,7 @@ export default function QuestionPage() {
     function NextQuestion() {
         const nextIndex = currentQuestionIndex + 1;
 
-        if(nextIndex < questionData.length -1) {
+        if(nextIndex < questionData.length) {
             setCurrentQuestionIndex(nextIndex);
             setIsWin(false);
         } else {
@@ -88,6 +90,7 @@ export default function QuestionPage() {
                         id: item.id,
                         questionText: item.questionText,
                         point: item.point,
+                        levelId: item.levelId,
                         levelName: item.levelName,
                         levelNo: item.levelNo,
                         options: []
@@ -121,7 +124,8 @@ export default function QuestionPage() {
         id: number,
         answer: string,
         answerOptionId: number,
-        point: number
+        point: number,
+        levelId: number
     ) {
         try {
             unlockAudio();
@@ -162,7 +166,7 @@ export default function QuestionPage() {
                         gameSessionId: session,
                         questionId: id,
                         answerOptionId: answerOptionId,
-                        levelId: level,
+                        levelId: levelId,
                         isCorrect: isCorrect ? true : false,
                         point: point
                     })
@@ -302,7 +306,8 @@ export default function QuestionPage() {
                                             currentQuestion.id,
                                             item.option,
                                             item.id,
-                                            currentQuestion.point
+                                            currentQuestion.point,
+                                            currentQuestion.levelId
                                         );
                                         playSound("click");
                                     }
@@ -323,9 +328,10 @@ export default function QuestionPage() {
                         🎉 LUAR BIASA! 🎉
                     </h2>
                     <button
+                        type="button"
                         onClick={() => {
-                            NextQuestion;
                             playSound("click");
+                            NextQuestion();
                         }}
                         className="btn-interactive btn-3d bg-yellow-400 text-yellow-950 font-black py-4 px-10 rounded-full text-2xl shadow-[0_6px_0_#b45309] hover:bg-yellow-300 mt-4"
                     >

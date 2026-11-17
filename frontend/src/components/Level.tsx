@@ -32,6 +32,7 @@ export default function LevelPage() {
     const [sessionId, setSessionId] = useState<number>(0);
 
     const { difficulty, gameModesId, name } = location.state;
+    const questionType = name.trim().replace("-", "_");
 
     // START: Check game sessions
     async function CheckGameSessions(): Promise<number | null> {
@@ -60,12 +61,6 @@ export default function LevelPage() {
             const data = await response.json();
 
             if (!data.length || !data[0].id) {
-                Notification(
-                    "Sesi game tidak ditemukan.",
-                    "error",
-                    false
-                );
-
                 return null;
             }
 
@@ -89,7 +84,8 @@ export default function LevelPage() {
         try {
             const params = new URLSearchParams({
                 gameModesId: String(gameModesId),
-                gameSessionId: String(currentSessionId)
+                gameSessionId: String(currentSessionId),
+                questionType
             });
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/levels/fetch?${params}`
@@ -214,7 +210,7 @@ export default function LevelPage() {
                     </div>
                     <button
                         onClick={() => {
-                            handleLogout;
+                            handleLogout();
                             playSound("click");
                         }}
                         title="Keluar Akun"
