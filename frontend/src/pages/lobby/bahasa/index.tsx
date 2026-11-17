@@ -18,7 +18,7 @@ export default function BahasaMenuPage() {
     async function handleLogout() {
         await logout();
         
-        navigate("/login", { replace: true });
+        navigate("/masuk", { replace: true });
     }
     // END: Logout
 
@@ -61,7 +61,7 @@ export default function BahasaMenuPage() {
 
     return (
         <>
-            <div className="screen justify-start md:justify-center">
+            <div className="screen justify-center">
                 <div className="absolute top-4 left-4 z-20 flex items-center gap-3">
                     <div className="w-sm flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md">
                         <div className="flex items-center gap-3">
@@ -85,7 +85,7 @@ export default function BahasaMenuPage() {
                     
                     <button
                         onClick={() => {
-                            navigate("/leaderboard");
+                            navigate("/papan-peringkat");
                             playSound("click");
                         }}
                         className="btn-3d bg-yellow-400 hover:bg-yellow-500 text-yellow-950 font-black p-3 rounded-full shadow-md text-xl border-2 border-white flex items-center justify-center cursor-pointer"
@@ -117,7 +117,7 @@ export default function BahasaMenuPage() {
                     </button>
                     <button
                         onClick={() => {
-                            navigate("/lobi");
+                            navigate("/beranda");
                             playSound("click")
                         }}
                         className="mt-4 text-indigo-800 bg-white/70 py-3 rounded-full font-bold text-lg hover:bg-white backdrop-blur-sm transition-all shadow cursor-pointer"

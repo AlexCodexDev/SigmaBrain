@@ -80,7 +80,7 @@ export default function LeaderBoardPage() {
                 <button
                     onClick={() => {
                         playSound("click");
-                        navigate("/lobi");
+                        navigate("/beranda");
                     }}
                     className="btn-interactive btn-3d bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-3 px-8 rounded-full text-lg shadow-[0_4px_0_#312e81]"
                 >

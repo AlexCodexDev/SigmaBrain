@@ -91,7 +91,7 @@ export default function LoginPage() {
                 password: ""
             });
 
-            navigate("/lobi", { replace: true });
+            navigate("/beranda", { replace: true });
         } catch (error: any) {
             Notification(
                 error.message,

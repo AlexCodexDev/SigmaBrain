@@ -6,7 +6,7 @@ export default function UserRouter() {
 
     if(loading) return <div>Memeriksa sesi login...</div>;
 
-    if(user) return <Navigate to="/lobi" replace />
+    if(user) return <Navigate to="/beranda" replace />
 
     return <Outlet />;
 }

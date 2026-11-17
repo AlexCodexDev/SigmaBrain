@@ -41,7 +41,7 @@ export default function LevelPage() {
     async function handleLogout() {
         await logout();
         
-        navigate("/login", { replace: true });
+        navigate("/masuk", { replace: true });
     }
     
     const [loading, setLoading] = useState(true);
@@ -142,7 +142,6 @@ export default function LevelPage() {
 
             const currentSessionId = await CheckGameSessions();
 
-            // Hentikan proses jika session gagal ditemukan
             if (currentSessionId === null) return;
 
             setSessionId(currentSessionId);
@@ -426,7 +425,7 @@ export default function LevelPage() {
                 
                 <button
                     onClick={() => {
-                        navigate("/leaderboard");
+                        navigate("/papan-peringkat");
                         playSound("click");
                     }}
                     className="btn-3d bg-yellow-400 hover:bg-yellow-500 text-yellow-950 font-black p-3 rounded-full shadow-md text-xl border-2 border-white flex items-center justify-center cursor-pointer"

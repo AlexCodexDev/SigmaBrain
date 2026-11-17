@@ -11,8 +11,8 @@ export default function AuthNavigate() {
         unlockAudio
     } = useGameAudio();
 
-    const isLogin = location.pathname === "/login";
-    const isRegister = location.pathname === "/register";
+    const isLogin = location.pathname === "/masuk";
+    const isRegister = location.pathname === "/daftar";
 
     const activeClass = "w-1/2 py-2 rounded-lg font-extrabold text-sm transition-all bg-white text-indigo-900 shadow-sm cursor-pointer";
     const inActiveClass = "w-1/2 py-2 rounded-lg font-extrabold text-sm transition-all text-indigo-600 hover:text-indigo-900 cursor-pointer";
@@ -26,7 +26,7 @@ export default function AuthNavigate() {
             <button
                 type="button"
                 onClick={() => {
-                navigate("/login");
+                navigate("/masuk");
                     playSound("click");
                 }}
                 className={isLogin ? activeClass : inActiveClass}
@@ -36,7 +36,7 @@ export default function AuthNavigate() {
             <button
                 type="button"
                 onClick={() => {
-                    navigate("/register");
+                    navigate("/daftar");
                     playSound("click");
                 }}
                 className={isRegister ? activeClass: inActiveClass}

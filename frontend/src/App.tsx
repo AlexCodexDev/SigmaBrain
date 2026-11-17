@@ -24,14 +24,14 @@ export default function App() {
           children: [
             {
               index: true,
-              element: <Navigate to="/login" replace />
+              element: <Navigate to="/masuk" replace />
             },
             {
-              path: "login",
+              path: "masuk",
               element: <LoginPage />
             },
             {
-              path: "register",
+              path: "daftar",
               element: <RegisterPage />
             }
           ]
@@ -42,7 +42,7 @@ export default function App() {
       element: <ProtectedRoute />,
       children: [
         {
-          path: "/lobi",
+          path: "/beranda",
           element: <LobbyLayout />,
           children: [
             {
@@ -122,14 +122,14 @@ export default function App() {
           ]
         },
         {
-          path: "/leaderboard",
+          path: "/papan-peringkat",
           element: <LeaderBoardPage />
         }
       ]
     },
     {
       path: "*",
-      element: <Navigate to="/login" replace />
+      element: <Navigate to="/masuk" replace />
     }
   ]);
 

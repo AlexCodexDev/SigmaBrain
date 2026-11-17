@@ -18,7 +18,7 @@ export default function LobbyPage() {
     async function handleLogout() {
         await logout();
         
-        navigate("/login", { replace: true });
+        navigate("/masuk", { replace: true });
     }
     // END: Logout
 
@@ -84,7 +84,7 @@ export default function LobbyPage() {
                 
                 <button
                     onClick={() => {
-                        navigate("/leaderboard");
+                        navigate("/papan-peringkat");
                         playSound("click");
                     }}
                     className="btn-3d bg-yellow-400 hover:bg-yellow-500 text-yellow-950 font-black p-3 rounded-full shadow-md text-xl border-2 border-white flex items-center justify-center cursor-pointer"
