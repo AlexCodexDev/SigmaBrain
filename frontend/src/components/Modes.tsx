@@ -177,7 +177,7 @@ export default function ModesPage() {
                         <p className="text-gray-400 text-xs text-center mb-6 font-bold uppercase tracking-wider">Mode Hardcore Ekstrem</p>
                         <button
                             onClick={() => {
-                                navigate(`/${pathname}/tingkat`, { state: { difficulty: "nightmare", gameModesId: 5, name: pathname } });
+                                navigate(`/${pathname}/tingkat`, { state: { difficulty: "nightmare", gameModesId: 4, name: pathname } });
                                 playSound("click");
                             }}
                             className="w-full btn-interactive btn-3d bg-red-600 hover:bg-red-500 text-white font-black py-4 rounded-xl text-xl shadow-[0_6px_0_#7f1d1d] tracking-wide cursor-pointer"
