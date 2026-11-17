@@ -116,7 +116,7 @@ export default function ModesPage() {
 
     return (
         <>
-            <div className="screen gap-8">
+            <div className="screen gap-5">
                 <div className="absolute top-4 left-4 z-20 flex items-center gap-3">
                     <div className="w-sm flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md">
                         <div className="flex items-center gap-3">
@@ -148,9 +148,9 @@ export default function ModesPage() {
                         🏆
                     </button>
                 </div>
-                <h1 className="glitch text-center text-4xl" data-text="Pilih Kesulitan">Pilih Kesulitan</h1>
+                <h1 className="glitch text-center text-4xl mt-auto md:mt-0" data-text="Pilih Kesulitan">Pilih Kesulitan</h1>
 
-                <div className="flex justify-center items-center gap-7 w-full">
+                <div className="flex flex-col justify-center items-center gap-7 w-full md:flex-row">
                     <div className="flex flex-col gap-5 w-full max-w-sm relative z-10">
                         {gameModesData.map((item: any, index: number) => (
                             <button

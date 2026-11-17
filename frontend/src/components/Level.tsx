@@ -446,8 +446,8 @@ export default function LevelPage() {
                     Level {difficulty}
                 </h1>
                 
-                <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full max-w-5xl relative z-10">
-                    <div className="grid grid-cols-5 gap-3 w-full md:w-2/3">
+                <div className="flex flex-col gap-8 items-center justify-center w-full max-w-5xl h-full relative z-10 md:flex-row">
+                    <div className="grid grid-cols-2 gap-3 w-full h-full overflow-y-auto md:w-2/3 md:grid-cols-5 md:overflow-y-hidden">
                         {levelsData.map((item: any) => (
                             <button
                                 key={item.id}
@@ -476,8 +476,7 @@ export default function LevelPage() {
                                                     ? "bg-gray-950 text-red-400 border border-red-800 hover:bg-red-950"
                                                     : "bg-white text-indigo-800 hover:bg-indigo-50 border border-indigo-100"
                                     }
-                                    btn-interactive btn-3d font-extrabold text-xl py-4 rounded-2xl
-                                    shadow-[0_4px_0_#cbd5e1]
+                                    btn-interactive btn-3d font-extrabold text-xl py-4 rounded-2xl shadow-[0_4px_0_#cbd5e1] h-20
                                 `}
                             >
                                 {item.isLocked

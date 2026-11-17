@@ -4,7 +4,7 @@
 body { 
     font-family: 'Baloo 2', cursive; 
     margin: 0;
-    overflow-x: hidden;
+    overflow: hidden;
     background-color: #f0fdf4;
     transition: background-color 0.8s ease;
 }
@@ -179,8 +179,9 @@ body.nightmare-mode input::placeholder {
    3. SISTEM UI & EFEK TOMBOL
 =================================================== */
 .screen { 
-    display: flex; 
-    min-height: 100vh; 
+    display: flex;
+    height: 100dvh; 
+    min-height: 0; 
     width: 100%; 
     flex-direction: column; 
     align-items: center; 
@@ -188,6 +189,8 @@ body.nightmare-mode input::placeholder {
     padding: 1.5rem;
     position: relative;
     z-index: 10;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .glitch {
