@@ -6,8 +6,7 @@ export async function RegisterDAO(data: any) {
     await db.insert(users).values({
         username: data.username,
         email: data.email,
-        password: data.password,
-        updatedAt: null
+        password: data.password
     });
 }
 
