@@ -133,8 +133,6 @@ export default function LevelPage() {
             );
 
             return null
-        } finally {
-            setLoading(false);
         }
     }
 
@@ -201,10 +199,15 @@ export default function LevelPage() {
     // END: Fetch score
 
     useEffect(() => {
+        if (!user?.id) return;
+
         FetchScoreUser();
+    }, [user?.id]);
+
+    useEffect(() => {
         unlockAudio();
         Initialize();
-    }, []);
+    }, [gameModesId, questionType, difficulty]);
 
     useEffect(() => {
         if (!isNightmare) return;
