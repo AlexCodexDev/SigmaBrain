@@ -40,7 +40,6 @@ export default function LevelPage() {
 
     const emberCanvasRef = useRef<HTMLCanvasElement>(null);
     const lightningFlashRef = useRef<HTMLDivElement>(null);
-    const hasRefresh = useRef(false);
 
     const { difficulty, gameModesId, name } = location.state;
     const isNightmare = String(difficulty).toLowerCase() === "nightmare";
