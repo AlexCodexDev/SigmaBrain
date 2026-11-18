@@ -84,8 +84,6 @@ export default function LevelPage() {
             );
 
             return null;
-        } finally {
-            setLoading(false);
         }
     }
     // END: Check game sessions
@@ -140,7 +138,6 @@ export default function LevelPage() {
             if(data === null) return;
 
             setLevelsData(data);
-
         } catch (error: unknown) {
             Notification(
                 error instanceof Error
@@ -194,9 +191,11 @@ export default function LevelPage() {
     }, [user?.id]);
 
     useEffect(() => {
+        if(!user?.id) return;
+
         unlockAudio();
         Initialize();
-    }, [gameModesId, questionType, difficulty]);
+    }, [user?.id, gameModesId, questionType, difficulty]);
 
     useEffect(() => {
         if (!isNightmare) return;
@@ -358,7 +357,7 @@ export default function LevelPage() {
                         {levelsData.map((item: any) => (
                             <button
                                 key={item.id}
-                                disabled={item.locked}
+                                disabled={item.isLocked}
                                 onClick={
                                     () => {
                                         navigate(`/${name}/main`, {

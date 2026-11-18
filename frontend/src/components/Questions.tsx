@@ -277,11 +277,11 @@ export default function QuestionPage() {
         return (
              <div className="screen justify-center">
                 <div className="text-center animate-fade-in">
-                    <h1 className="text-4xl font-black text-white">
+                    <h1 className="glitch text-4xl font-black text-white">
                         🏆 PERMAINAN SELESAI!
                     </h1>
 
-                    <p className="text-white mt-3">
+                    <p className="text-[#4f46e5] text-2xl font-black mt-3">
                         Selamat! Kamu telah menyelesaikan semua soal.
                     </p>
 
@@ -290,7 +290,7 @@ export default function QuestionPage() {
                             navigate(-1);
                             playSound("click");
                         }}
-                        className="btn-interactive bg-yellow-400 text-yellow-950 font-black py-4 px-10 rounded-full mt-6"
+                        className="mt-8 bg-white/90 text-indigo-800 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-white text-lg transition-all backdrop-blur-sm relative z-10 cursor-pointer"
                     >
                         Kembali
                     </button>
