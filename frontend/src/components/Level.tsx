@@ -40,6 +40,7 @@ export default function LevelPage() {
 
     const emberCanvasRef = useRef<HTMLCanvasElement>(null);
     const lightningFlashRef = useRef<HTMLDivElement>(null);
+    const hasRefresh = useRef(false);
 
     const { difficulty, gameModesId, name } = location.state;
     const isNightmare = String(difficulty).toLowerCase() === "nightmare";
@@ -128,13 +129,17 @@ export default function LevelPage() {
             setLoading(true);
 
             const currentSessionId = await CheckGameSessions();
-
-            if (currentSessionId === null) return;
+            if (currentSessionId === null) {
+                if(!hasRefresh.current) {
+                    hasRefresh.current = true;
+                    window.location.reload();
+                }
+                return;
+            };
 
             setSessionId(currentSessionId);
 
             const data = await getLevels(currentSessionId);
-
             if(data === null) return;
 
             setLevelsData(data);
