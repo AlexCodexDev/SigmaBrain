@@ -408,7 +408,7 @@ export default function QuestionPage() {
             <div className="screen">
                 <h1
                     className="glitch mb-8 text-center text-4xl capitalize"
-                    data-text="Memuat level..."
+                    data-text="Memuat pertanyaan..."
                 >
                     Memuat pertanyaan...
                 </h1>
