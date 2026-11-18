@@ -70,6 +70,7 @@ export default function LevelPage() {
             const data = await response.json();
 
             if (!data.length || !data[0].id) {
+                window.location.reload();
                 return null;
             }
 
