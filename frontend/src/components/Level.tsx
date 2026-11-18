@@ -17,17 +17,6 @@ interface LevelsProps {
     correctQuestions: number;
 }
 
-interface EmberParticle {
-    x: number;
-    y: number;
-    size: number;
-    speedY: number;
-    speedX: number;
-    opacity: number;
-    color: string;
-    wobble: number;
-}
-
 export default function LevelPage() {
     const navigate = useNavigate();
     const location = useLocation();

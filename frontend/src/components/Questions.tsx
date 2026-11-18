@@ -28,17 +28,6 @@ interface Question {
     }[];
 }
 
-interface EmberParticle {
-    x: number;
-    y: number;
-    size: number;
-    speedY: number;
-    speedX: number;
-    opacity: number;
-    color: string;
-    wobble: number;
-}
-
 export default function QuestionPage() {
     const navigate = useNavigate();
     const location = useLocation();
