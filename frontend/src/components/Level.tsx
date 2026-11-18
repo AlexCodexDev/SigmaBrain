@@ -352,27 +352,15 @@ export default function LevelPage() {
                 <div className="flex flex-col gap-8 items-center justify-center w-full max-w-5xl relative z-10 md:flex-row">
                     <div className="grid grid-cols-2 gap-3 w-full md:w-2/3 md:grid-cols-5">
                         {levelsData.length === 0 && (
-                            <div className="col-span-2 md:col-span-5 flex flex-col items-center gap-4 py-10">
-
-                                <p className="text-center font-bold text-lg text-white">
-                                    Level belum tersedia.
-                                </p>
-
-                                <p className="text-center text-sm text-white/70">
-                                    Silakan tekan tombol di bawah untuk memuat ulang level.
-                                </p>
-
-                                <button
-                                    onClick={() => {
-                                        window.location.reload();
-                                        playSound("click");
-                                    }}
-                                    className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-all cursor-pointer"
-                                >
-                                    🔄 Refresh Level
-                                </button>
-
-                            </div>
+                            <button
+                                onClick={() => {
+                                    window.location.reload();
+                                    playSound("click");
+                                }}
+                                className="w-full mt-8 bg-white/90 text-indigo-800 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-white text-lg transition-all backdrop-blur-sm relative z-10 cursor-pointer md:w-sm"
+                            >
+                                🔄 Refresh Level
+                            </button>
                         )}
 
                         {levelsData.map((item: any) => (
