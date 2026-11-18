@@ -43,7 +43,6 @@ export default function ModesPage() {
 
             const data: GameModesProps[] = await response.json();
 
-
             const nightmare = data.find(
                 (item: any) => item.name.toLowerCase() === "nightmare" 
             );
@@ -120,6 +119,8 @@ export default function ModesPage() {
             </div>
         );
     };
+
+    console.log(gameModeNightmare);
 
     return (
         <>
