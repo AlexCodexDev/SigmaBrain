@@ -83,22 +83,6 @@ body {
 /* ===================================================
    2. LATAR BELAKANG NIGHTMARE MODE
 =================================================== */
-body.nightmare-mode {
-    background-color: #0d0101 !important;
-}
-
-body.nightmare-mode .screen {
-    animation: bossRumble 0.18s infinite ease-in-out;
-}
-
-@keyframes bossRumble {
-    0% { transform: translate(0, 0); }
-    25% { transform: translate(-1.5px, 1.5px); }
-    50% { transform: translate(1.5px, -1px); }
-    75% { transform: translate(-1px, -1.5px); }
-    100% { transform: translate(0, 0); }
-}
-
 .blood-vignette {
     position: fixed;
     inset: 0;
@@ -142,36 +126,36 @@ body.nightmare-mode .screen {
     100% { opacity: 0; }
 }
 
-body.nightmare-mode #gameArena {
+.nightmare-mode #gameArena {
     background-color: rgba(18, 0, 0, 0.96) !important;
     border: 3px solid #ff1a1a !important;
     box-shadow: 0 0 50px rgba(255, 0, 0, 0.7) !important;
 }
 
-body.nightmare-mode #question-text, 
-body.nightmare-mode #game-header-title {
+.nightmare-mode #question-text, 
+.nightmare-mode #game-header-title {
     color: #ff3333 !important;
 }
 
-body.nightmare-mode .bg-indigo-100\/80 {
+.nightmare-mode .bg-indigo-100\/80 {
     background-color: #380000 !important;
     border-color: #ff1a1a !important;
 }
 
-body.nightmare-mode #screen-login .bg-white\/90,
-body.nightmare-mode #screen-leaderboard .bg-white\/95 {
+.nightmare-mode #screen-login .bg-white\/90,
+.nightmare-mode #screen-leaderboard .bg-white\/95 {
     background-color: rgba(18, 0, 0, 0.95) !important;
     border-color: #ff1a1a !important;
     box-shadow: 0 0 40px rgba(255, 0, 0, 0.6) !important;
 }
 
-body.nightmare-mode input {
+.nightmare-mode input {
     background-color: #2a0000 !important;
     border-color: #ff1a1a !important;
     color: #ffffff !important;
 }
 
-body.nightmare-mode input::placeholder {
+.nightmare-mode input::placeholder {
     color: #ff8888 !important;
 }
 
@@ -216,7 +200,7 @@ body.nightmare-mode input::placeholder {
 .glitch::before { color: #ec4899; z-index: -1; animation: glitch-color-1 3s infinite; }
 .glitch::after { color: #06b6d4; z-index: -2; animation: glitch-color-2 3s infinite; }
 
-body.nightmare-mode .glitch {
+.nightmare-mode .glitch {
     color: #ff1e1e !important;
     text-shadow: 4px 4px 0px #440000 !important;
     animation: glitch-nightmare 0.1s infinite !important;

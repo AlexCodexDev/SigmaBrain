@@ -24,6 +24,7 @@ export default function ModesPage() {
 
     const [loading, setLoading] = useState(true);
     const [gameModesData, setGameModesData] = useState<GameModesProps[]>([]);
+    const [gameModeNightmare, setGameModeNightmare] = useState<number | null>(0);
 
     // START: Fetch
     async function getGameModes() {
@@ -42,6 +43,12 @@ export default function ModesPage() {
 
             const data: GameModesProps[] = await response.json();
 
+
+            const nightmare = data.find(
+                (item: any) => item.name.toLowerCase() === "nightmare" 
+            );
+
+            setGameModeNightmare(nightmare?.id ?? null);
             setGameModesData(data);
         } catch (error: any) {
             Notification(
@@ -152,23 +159,26 @@ export default function ModesPage() {
 
                 <div className="flex flex-col justify-center items-center gap-7 w-full md:flex-row">
                     <div className="flex flex-col gap-5 w-full max-w-sm relative z-10">
-                        {gameModesData.map((item: any, index: number) => (
-                            <button
-                                key={index}
-                                onClick={() => {
-                                    navigate(`/${pathname}/tingkat`, { state: { difficulty: item.name, gameModesId: item.id, name: pathname } });
-                                    playSound("click");
-                                }}
-                                className={`
-                                    ${item.name === "easy" ? "bg-green-500 hover:bg-green-600 shadow-[0_6px_0_#15803d]" : ""}
-                                    ${item.name === "medium" ? "bg-yellow-500 hover:bg-yellow-600 shadow-[0_6px_0_#a16207]" : ""}
-                                    ${item.name === "hard" ? "bg-orange-500 hover:bg-orange-600 shadow-[0_6px_0_#c2410c]" : ""}
-                                    btn-interactive btn-3d text-white font-bold py-5 rounded-2xl text-2xl flex items-center justify-center gap-2 cursor-pointer
-                                `}
-                            >
-                                {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
-                            </button>
-                        ))}
+                        {gameModesData.map((item: any, index: number) => {
+                            return (
+                            
+                                <button
+                                    key={index}
+                                    onClick={() => {
+                                        navigate(`/${pathname}/tingkat`, { state: { difficulty: item.name, gameModesId: item.id, name: pathname } });
+                                        playSound("click");
+                                    }}
+                                    className={`
+                                        ${item.name === "easy" ? "bg-green-500 hover:bg-green-600 shadow-[0_6px_0_#15803d]" : ""}
+                                        ${item.name === "medium" ? "bg-yellow-500 hover:bg-yellow-600 shadow-[0_6px_0_#a16207]" : ""}
+                                        ${item.name === "hard" ? "bg-orange-500 hover:bg-orange-600 shadow-[0_6px_0_#c2410c]" : ""}
+                                        btn-interactive btn-3d text-white font-bold py-5 rounded-2xl text-2xl flex items-center justify-center gap-2 cursor-pointer
+                                    `}
+                                >
+                                    {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+                                </button>
+                            )
+                        })}
                     </div>
 
                     <div className="w-full md:w-sm flex flex-col items-center justify-center bg-gray-950/95 p-6 rounded-[2.5rem] border-4 border-red-600 shadow-[0_0_40px_#dc2626] transform transition-all duration-300 hover:scale-105">
@@ -177,9 +187,12 @@ export default function ModesPage() {
                         <p className="text-gray-400 text-xs text-center mb-6 font-bold uppercase tracking-wider">Mode Hardcore Ekstrem</p>
                         <button
                             onClick={() => {
-                                navigate(`/${pathname}/tingkat`, { state: { difficulty: "nightmare", gameModesId: 4, name: pathname } });
+                                if(gameModeNightmare  === null) return;
+
+                                navigate(`/${pathname}/tingkat`, { state: { difficulty: "nightmare", gameModesId: gameModeNightmare, name: pathname } });
                                 playSound("click");
                             }}
+                            disabled={gameModeNightmare === null}
                             className="w-full btn-interactive btn-3d bg-red-600 hover:bg-red-500 text-white font-black py-4 rounded-xl text-xl shadow-[0_6px_0_#7f1d1d] tracking-wide cursor-pointer"
                         >
                             MASUK PORTAL 🔥

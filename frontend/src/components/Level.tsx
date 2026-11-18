@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { Notification } from "./Notification";
 import { useAuth } from "../context/AuthContext";
 import { useGameAudio } from "../hooks/useGameAudio";
+import nightmareBackground from "../assets/FireFrame.mp4";
 
 interface LevelsProps {
     id: number;
@@ -47,6 +48,7 @@ export default function LevelPage() {
     const [loading, setLoading] = useState(true);
     const [levelsData, setLevelsData] = useState<LevelsProps[]>([]);
     const [sessionId, setSessionId] = useState<number>(0);
+
     const emberCanvasRef = useRef<HTMLCanvasElement>(null);
     const lightningFlashRef = useRef<HTMLDivElement>(null);
 
@@ -208,14 +210,15 @@ export default function LevelPage() {
         if (!isNightmare) return;
 
         playSound("nightmare");
+
         const canvas = emberCanvasRef.current;
         const ctx = canvas?.getContext("2d");
 
         if (!canvas || !ctx) return;
 
         let animationId = 0;
-        let lightningTimeout: number;
-        let flashTimeout: number;
+        let lightningTimeout: number | undefined;
+        let flashTimeout: number | undefined;
 
         let canvasWidth = window.innerWidth;
         let canvasHeight = window.innerHeight;
@@ -231,7 +234,10 @@ export default function LevelPage() {
 
         // Mengatur ukuran canvas
         function resizeCanvas() {
-            const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+            const pixelRatio = Math.min(
+                window.devicePixelRatio || 1,
+                2
+            );
 
             canvasWidth = window.innerWidth;
             canvasHeight = window.innerHeight;
@@ -310,7 +316,6 @@ export default function LevelPage() {
                 ctx!.fill();
             });
 
-            // Reset state canvas
             ctx!.globalAlpha = 1;
             ctx!.shadowBlur = 0;
 
@@ -326,14 +331,20 @@ export default function LevelPage() {
             lightningTimeout = window.setTimeout(() => {
                 const flash = lightningFlashRef.current;
 
-                if (!flash) return;
-
-                flash.classList.add("flash-active");
-
-                flashTimeout = window.setTimeout(() => {
+                if (flash) {
                     flash.classList.remove("flash-active");
-                }, 400);
 
+                    // Memicu ulang animasi CSS
+                    void flash.offsetWidth;
+
+                    flash.classList.add("flash-active");
+
+                    flashTimeout = window.setTimeout(() => {
+                        flash.classList.remove("flash-active");
+                    }, 450);
+                }
+
+                // Jadwalkan petir berikutnya
                 scheduleLightning();
 
             }, delay);
@@ -348,21 +359,29 @@ export default function LevelPage() {
         renderEmberStorm();
         scheduleLightning();
 
-        // Cleanup ketika keluar dari Nightmare
+        // Cleanup ketika keluar Nightmare
         return () => {
             window.removeEventListener("resize", resizeCanvas);
 
             cancelAnimationFrame(animationId);
 
-            clearTimeout(lightningTimeout);
-            clearTimeout(flashTimeout);
+            if (lightningTimeout !== undefined) {
+                clearTimeout(lightningTimeout);
+            }
 
-            ctx!.clearRect(
+            if (flashTimeout !== undefined) {
+                clearTimeout(flashTimeout);
+            }
+
+            ctx.clearRect(
                 0,
                 0,
                 canvasWidth,
                 canvasHeight
             );
+
+            ctx.globalAlpha = 1;
+            ctx.shadowBlur = 0;
 
             lightningFlashRef.current?.classList.remove(
                 "flash-active"
@@ -387,18 +406,47 @@ export default function LevelPage() {
     return (
         <>
             {isNightmare && (
-                <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
-                    <canvas ref={emberCanvasRef} className="absolute inset-0 w-full h-full" />
-
-                    <div id="fire-overlay" className="absolute inset-0">        
-                        <video loop muted className="w-full h-full object-cover mix-blend-screen opacity-70">
-                            <source src="Media/Video/FireFrame.mp4" type="video/mp4" />
-                        </video>       
+                <div
+                    className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-red-950"
+                    aria-hidden="true"
+                >
+                    {/* Background video api */}
+                    <div
+                        id="fire-overlay"
+                        className="absolute inset-0 z-0"
+                    >
+                        <video
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-full object-cover mix-blend-screen opacity-70"
+                        >
+                            <source
+                                src={nightmareBackground}
+                                type="video/mp4"
+                            />
+                        </video>
                     </div>
 
-                    <div className="crt-scanlines"></div>
-                    <div ref={lightningFlashRef} id="lightning-flash"></div>
-                    <div className="blood-vignette"></div>
+                    {/* Partikel bara api */}
+                    <canvas
+                        ref={emberCanvasRef}
+                        className="absolute inset-0 z-10 w-full h-full"
+                    />
+
+                    {/* CRT scanlines */}
+                    <div className="crt-scanlines absolute inset-0 z-20" />
+
+                    {/* Lightning */}
+                    <div
+                        ref={lightningFlashRef}
+                        id="lightning-flash"
+                        className="absolute inset-0 z-30 flash-active"
+                    />
+
+                    {/* Blood vignette */}
+                    <div className="blood-vignette absolute inset-0 z-40" />
                 </div>
             )}
 
@@ -435,7 +483,7 @@ export default function LevelPage() {
             </div>
 
             <div
-                className={`screen justify-start md:justify-center ${isNightmare ? "text-white" : ""}`}
+                className={`screen justify-start md:justify-center ${isNightmare ? "text-white nightmare-enter nightmare-mode" : ""}`}
                 style={isNightmare ? { background: "transparent" } : undefined}
             >
                 <h1
@@ -458,7 +506,8 @@ export default function LevelPage() {
                                                 gameModesId,
                                                 name,
                                                 level: item.id,
-                                                session: sessionId
+                                                session: sessionId,
+                                                difficulty
                                             }
                                         });
                                         playSound("click");
@@ -475,7 +524,10 @@ export default function LevelPage() {
                                                     ? "bg-gray-950 text-red-400 border border-red-800 hover:bg-red-950"
                                                     : "bg-white text-indigo-800 hover:bg-indigo-50 border border-indigo-100"
                                     }
-                                    btn-interactive btn-3d font-extrabold text-xl py-4 rounded-2xl shadow-[0_4px_0_#cbd5e1] h-20
+                                    btn-interactive btn-3d font-extrabold text-xl py-4 rounded-2xl ${isNightmare
+                                        ? "shadow-[0_4px_0_#7f1d1d]"
+                                        : "shadow-[0_4px_0_#cbd5e1]"
+                                    } h-20
                                 `}
                             >
                                 {item.isLocked

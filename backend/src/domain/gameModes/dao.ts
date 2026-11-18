@@ -8,9 +8,6 @@ export async function GetDataDAO() {
             id: gameModes.id,
             name: gameModes.name
         })
-        .from(gameModes)
-        .where(
-            ne(gameModes.name, "nightmare")
-        );
+        .from(gameModes);
     return data;
 }
