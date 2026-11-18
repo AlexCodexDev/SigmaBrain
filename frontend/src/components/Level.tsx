@@ -66,8 +66,6 @@ export default function LevelPage() {
                     "error",
                     false
                 );
-
-                return null;
             }
 
             const data = await response.json();
@@ -129,13 +127,8 @@ export default function LevelPage() {
             setLoading(true);
 
             const currentSessionId = await CheckGameSessions();
-            if (currentSessionId === null) {
-                if(!hasRefresh.current) {
-                    hasRefresh.current = true;
-                    window.location.reload();
-                }
-                return;
-            };
+
+            if(currentSessionId === null) return;
 
             setSessionId(currentSessionId);
 
