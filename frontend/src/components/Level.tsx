@@ -350,19 +350,18 @@ export default function LevelPage() {
                 </h1>
                 
                 <div className="flex flex-col gap-8 items-center justify-center w-full max-w-5xl relative z-10 md:flex-row">
+                    {levelsData.length === 0 && (
+                        <button
+                            onClick={() => {
+                                window.location.reload();
+                                playSound("click");
+                            }}
+                            className="w-full mt-8 bg-white/90 text-indigo-800 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-white text-lg transition-all backdrop-blur-sm relative z-10 cursor-pointer md:w-sm"
+                        >
+                            🔄 Refresh Level
+                        </button>
+                    )}
                     <div className="grid grid-cols-2 gap-3 w-full md:w-2/3 md:grid-cols-5">
-                        {levelsData.length === 0 && (
-                            <button
-                                onClick={() => {
-                                    window.location.reload();
-                                    playSound("click");
-                                }}
-                                className="w-full mt-8 bg-white/90 text-indigo-800 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-white text-lg transition-all backdrop-blur-sm relative z-10 cursor-pointer md:w-sm"
-                            >
-                                🔄 Refresh Level
-                            </button>
-                        )}
-
                         {levelsData.map((item: any) => (
                             <button
                                 key={item.id}
