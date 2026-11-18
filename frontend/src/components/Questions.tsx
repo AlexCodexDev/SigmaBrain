@@ -405,7 +405,7 @@ export default function QuestionPage() {
 
     if(loading) {
         return (
-            <div className="screen md:justify-center">
+            <div className="screen justify-center">
                 <h1
                     className="glitch mb-8 text-center text-4xl capitalize"
                     data-text="Memuat pertanyaan..."
