@@ -70,7 +70,6 @@ export default function LevelPage() {
             const data = await response.json();
 
             if (!data.length || !data[0].id) {
-                window.location.reload();
                 return null;
             }
 
@@ -352,6 +351,30 @@ export default function LevelPage() {
                 
                 <div className="flex flex-col gap-8 items-center justify-center w-full max-w-5xl relative z-10 md:flex-row">
                     <div className="grid grid-cols-2 gap-3 w-full md:w-2/3 md:grid-cols-5">
+                        {levelsData.length === 0 && (
+                            <div className="col-span-2 md:col-span-5 flex flex-col items-center gap-4 py-10">
+
+                                <p className="text-center font-bold text-lg text-white">
+                                    Level belum tersedia.
+                                </p>
+
+                                <p className="text-center text-sm text-white/70">
+                                    Silakan tekan tombol di bawah untuk memuat ulang level.
+                                </p>
+
+                                <button
+                                    onClick={() => {
+                                        window.location.reload();
+                                        playSound("click");
+                                    }}
+                                    className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-all cursor-pointer"
+                                >
+                                    🔄 Refresh Level
+                                </button>
+
+                            </div>
+                        )}
+
                         {levelsData.map((item: any) => (
                             <button
                                 key={item.id}
