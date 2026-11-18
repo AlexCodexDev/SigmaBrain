@@ -213,119 +213,8 @@ export default function LevelPage() {
         if (!isNightmare) return;
 
         playSound("nightmare");
-
-        const canvas = emberCanvasRef.current;
-        const ctx = canvas?.getContext("2d");
-
-        if (!canvas || !ctx) return;
-
-        let animationId = 0;
         let lightningTimeout: number | undefined;
         let flashTimeout: number | undefined;
-
-        let canvasWidth = window.innerWidth;
-        let canvasHeight = window.innerHeight;
-
-        const colors = [
-            "#ff2a00",
-            "#ff7700",
-            "#ffdd00",
-            "#ff0055"
-        ];
-
-        let particles: EmberParticle[] = [];
-
-        // Mengatur ukuran canvas
-        function resizeCanvas() {
-            const pixelRatio = Math.min(
-                window.devicePixelRatio || 1,
-                2
-            );
-
-            canvasWidth = window.innerWidth;
-            canvasHeight = window.innerHeight;
-
-            canvas!.width = canvasWidth * pixelRatio;
-            canvas!.height = canvasHeight * pixelRatio;
-
-            canvas!.style.width = `${canvasWidth}px`;
-            canvas!.style.height = `${canvasHeight}px`;
-
-            ctx!.setTransform(
-                pixelRatio,
-                0,
-                0,
-                pixelRatio,
-                0,
-                0
-            );
-        }
-
-        // Membuat partikel bara api
-        function createParticles() {
-            particles = Array.from({ length: 120 }, () => ({
-                x: Math.random() * canvasWidth,
-                y: Math.random() * canvasHeight,
-                size: Math.random() * 4 + 1.5,
-                speedY: Math.random() * 3 + 2,
-                speedX: (Math.random() - 0.5) * 2,
-                opacity: Math.random() * 0.8 + 0.2,
-                color: colors[
-                    Math.floor(Math.random() * colors.length)
-                ],
-                wobble: Math.random() * Math.PI * 2
-            }));
-        }
-
-        // Animasi partikel
-        function renderEmberStorm() {
-            ctx!.clearRect(
-                0,
-                0,
-                canvasWidth,
-                canvasHeight
-            );
-
-            particles.forEach((particle) => {
-                particle.y -= particle.speedY;
-
-                particle.wobble += 0.04;
-
-                particle.x +=
-                    Math.sin(particle.wobble) * 1.5 +
-                    particle.speedX;
-
-                if (particle.y < -10) {
-                    particle.y = canvasHeight + 10;
-                    particle.x = Math.random() * canvasWidth;
-                }
-
-                ctx!.beginPath();
-
-                ctx!.arc(
-                    particle.x,
-                    particle.y,
-                    particle.size,
-                    0,
-                    Math.PI * 2
-                );
-
-                ctx!.fillStyle = particle.color;
-                ctx!.globalAlpha = particle.opacity;
-
-                ctx!.shadowBlur = 12;
-                ctx!.shadowColor = particle.color;
-
-                ctx!.fill();
-            });
-
-            ctx!.globalAlpha = 1;
-            ctx!.shadowBlur = 0;
-
-            animationId = requestAnimationFrame(
-                renderEmberStorm
-            );
-        }
 
         // Efek kilatan petir
         function scheduleLightning() {
@@ -353,21 +242,10 @@ export default function LevelPage() {
             }, delay);
         }
 
-        // Inisialisasi
-        resizeCanvas();
-        createParticles();
-
-        window.addEventListener("resize", resizeCanvas);
-
-        renderEmberStorm();
         scheduleLightning();
 
         // Cleanup ketika keluar Nightmare
         return () => {
-            window.removeEventListener("resize", resizeCanvas);
-
-            cancelAnimationFrame(animationId);
-
             if (lightningTimeout !== undefined) {
                 clearTimeout(lightningTimeout);
             }
@@ -375,16 +253,6 @@ export default function LevelPage() {
             if (flashTimeout !== undefined) {
                 clearTimeout(flashTimeout);
             }
-
-            ctx.clearRect(
-                0,
-                0,
-                canvasWidth,
-                canvasHeight
-            );
-
-            ctx.globalAlpha = 1;
-            ctx.shadowBlur = 0;
 
             lightningFlashRef.current?.classList.remove(
                 "flash-active"
