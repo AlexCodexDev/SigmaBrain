@@ -63,12 +63,12 @@ export default function BahasaMenuPage() {
         <>
             <div className="screen justify-center">
                 <div className="absolute top-4 left-4 z-20 flex items-center gap-3">
-                    <div className="w-sm flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md">
+                    <div className="w-3xs flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md md:w-sm">
                         <div className="flex items-center gap-3">
                             <span className="text-xl">👤</span>
                             <div>
                                 <span id="user-display-name" className="font-extrabold text-indigo-900 text-lg block leading-tight">{user?.username}</span>
-                                <span className="text-[12px] text-amber-600 font-black uppercase tracking-wider">🏆 Score Tertinggi: <span id="user-high-score">{score}</span></span>
+                                <span className="text-[12px] text-amber-600 font-black uppercase tracking-wider">🏆 Score: <span id="user-high-score">{score}</span></span>
                             </div>
                         </div>
                         <button

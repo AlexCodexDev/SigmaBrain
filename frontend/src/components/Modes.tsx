@@ -109,7 +109,7 @@ export default function ModesPage() {
 
     if(loading) {
         return (
-            <div className="screen">
+            <div className="screen justify-center">
                 <h1
                     className="glitch mb-8 text-center text-4xl capitalize"
                     data-text="Memuat tingkatan..."
@@ -124,12 +124,12 @@ export default function ModesPage() {
         <>
             <div className="screen gap-5 justify-start md:justify-center">
                 <div className="absolute top-4 left-4 z-20 flex items-center gap-3">
-                    <div className="w-sm flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md">
+                    <div className="w-3xs flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md md:w-sm">
                         <div className="flex items-center gap-3">
                             <span className="text-xl">👤</span>
                             <div>
                                 <span id="user-display-name" className="font-extrabold text-indigo-900 text-lg block leading-tight">{user?.username}</span>
-                                <span className="text-[12px] text-amber-600 font-black uppercase tracking-wider">🏆 Score Tertinggi: <span id="user-high-score">{score}</span></span>
+                                <span className="text-[12px] text-amber-600 font-black uppercase tracking-wider">🏆 Score: <span id="user-high-score">{score}</span></span>
                             </div>
                         </div>
                         <button
@@ -206,7 +206,7 @@ export default function ModesPage() {
                         navigate(-1);
                         playSound("click");
                     }}
-                    className="w-sm mt-4 text-indigo-800 bg-white/70 py-3 rounded-full font-bold text-lg hover:bg-white backdrop-blur-sm transition-all shadow cursor-pointer"
+                    className="w-full mt-8 bg-white/90 text-indigo-800 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-white text-lg transition-all backdrop-blur-sm relative z-10 cursor-pointer md:w-sm"
                 >
                     ⬅️ Kembali ke Menu
                 </button>

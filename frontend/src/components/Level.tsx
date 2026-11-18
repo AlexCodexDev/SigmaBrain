@@ -395,7 +395,7 @@ export default function LevelPage() {
 
     if(loading) {
         return (
-            <div className="screen">
+            <div className="screen justify-center">
                 <h1
                     className="glitch mb-8 text-center text-4xl capitalize"
                     data-text="Memuat level..."
@@ -454,12 +454,12 @@ export default function LevelPage() {
             )}
 
             <div className="absolute top-4 left-4 z-50 flex items-center gap-3">
-                <div className="w-xs flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md md:w-sm">
+                <div className="w-3xs flex justify-between items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-100 shadow-md md:w-sm">
                     <div className="flex items-center gap-3">
                         <span className="text-xl">👤</span>
                         <div>
                             <span id="user-display-name" className="font-extrabold text-indigo-900 text-lg block leading-tight">{user?.username}</span>
-                            <span className="text-[12px] text-amber-600 font-black uppercase tracking-wider">🏆 Score Tertinggi: <span id="user-high-score">{score}</span></span>
+                            <span className="text-[12px] text-amber-600 font-black uppercase tracking-wider">🏆 Score: <span id="user-high-score">{score}</span></span>
                         </div>
                     </div>
                     <button
@@ -555,9 +555,9 @@ export default function LevelPage() {
                         navigate(-1);
                         playSound('click');
                     }}
-                    className="mt-8 bg-white/90 text-indigo-800 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-white text-lg transition-all backdrop-blur-sm relative z-10 cursor-pointer"
+                    className="w-full mt-8 bg-white/90 text-indigo-800 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-white text-lg transition-all backdrop-blur-sm relative z-10 cursor-pointer md:w-sm"
                 >
-                    ⬅️ Kembali ke Menu Utama
+                    ⬅️ Kembali
                 </button>
             </div>
         </>

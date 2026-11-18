@@ -405,7 +405,7 @@ export default function QuestionPage() {
 
     if(loading) {
         return (
-            <div className="screen">
+            <div className="screen md:justify-center">
                 <h1
                     className="glitch mb-8 text-center text-4xl capitalize"
                     data-text="Memuat pertanyaan..."
@@ -444,7 +444,7 @@ export default function QuestionPage() {
 
     if (!currentQuestion) {
         return (
-            <div className="screen">
+            <div className="screen justify-center">
                 <h1
                     className="glitch mb-8 text-center text-4xl capitalize"
                     data-text="Tidak ada pertanyaan tersedia."
@@ -621,7 +621,7 @@ export default function QuestionPage() {
                 ): (
                     <div
                         id="winScreen"
-                        className="flex flex-col items-center mt-8 text-center animate-fade-in"
+                        className="flex flex-col items-center h-full justify-center mt-8 text-center animate-fade-in"
                     >
                         <h2 className={`
                             text-4xl md:text-5xl font-black mb-2 animate-bounce
