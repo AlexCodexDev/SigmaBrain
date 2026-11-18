@@ -158,7 +158,9 @@ export default function ModesPage() {
 
                 <div className="flex flex-col justify-center items-center gap-7 w-full md:flex-row">
                     <div className="flex flex-col gap-5 w-full max-w-sm relative z-10">
-                        {gameModesData.map((item: any, index: number) => {
+                        {gameModesData
+                        .filter((item: any) => item.name.toLowerCase() !== "nightmare")
+                        .map((item: any, index: number) => {
                             return (
                             
                                 <button
