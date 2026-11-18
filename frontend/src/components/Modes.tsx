@@ -47,9 +47,6 @@ export default function ModesPage() {
                 (item: any) => item.name.toLowerCase() === "nightmare" 
             );
 
-            console.log(data);
-            console.log(nightmare);
-
             setGameModeNightmare(nightmare?.id ?? null);
             setGameModesData(data);
         } catch (error: any) {
