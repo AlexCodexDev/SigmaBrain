@@ -120,8 +120,6 @@ export default function ModesPage() {
         );
     };
 
-    console.log(gameModeNightmare);
-
     return (
         <>
             <div className="screen gap-5 justify-start md:justify-center">
